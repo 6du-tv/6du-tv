@@ -82,9 +82,6 @@ class _MainPageState extends State<MainPage> {
     }
     height = width * 1.5;
 
-    final imgW = (width * window.devicePixelRatio).toInt().toString();
-    final imgH = (height * window.devicePixelRatio).toInt().toString();
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -115,10 +112,10 @@ class _MainPageState extends State<MainPage> {
                       li.add(Padding(
                           padding: EdgeInsets.all(padding),
                           child: VideoWidget(
-                            height: height,
                             img: o[1],
                             title: o[0],
                             width: width,
+                            height: height,
                             padding: padding,
                           )));
                     }

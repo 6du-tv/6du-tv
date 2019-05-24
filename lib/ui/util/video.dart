@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -29,6 +31,10 @@ class VideoWidgetState extends State<VideoWidget> {
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
+
+    final imgW = (widget.width * window.devicePixelRatio).toInt().toString();
+    final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
+
     return GestureDetector(
         onTap: widget.onTap,
         child: Column(children: <Widget>[
@@ -42,7 +48,7 @@ class VideoWidgetState extends State<VideoWidget> {
                   height: widget.height,
                   fit: BoxFit.cover,
                   imageUrl:
-                      "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/${widget.width}/h/${widget.height}}/format/webp",
+                      "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/${imgW}/h/${imgH}/format/webp",
                   errorWidget: (context, url, error) => Icon(Icons.error))),
           Text(widget.title, style: TextStyle(color: Colors.grey))
         ]));
