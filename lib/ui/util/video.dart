@@ -55,9 +55,11 @@ class VideoWidgetState extends State<VideoWidget> {
                       imageUrl:
                           "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
                       errorWidget: (context, url, error) => Icon(Icons.error))),
-              FittedBox(
-                  fit: BoxFit.contain,
+              Container(
+                  width: widget.width,
                   child: Text(widget.title,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: color),
                       overflow: TextOverflow.fade))
             ])));
