@@ -99,13 +99,12 @@ class _MainPageState extends State<MainPage> {
             child: FutureBuilder<List>(
                 future: fetchVideo(),
                 builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return CircularProgressIndicator();
+                  }
                   if (snapshot.hasError) {
                     debugPrint(snapshot.error.toString());
                     return Icon(Icons.error);
-                  }
-                  if (snapshot.connectionState != ConnectionState.done ||
-                      snapshot.data == null) {
-                    return CircularProgressIndicator();
                   }
                   List<Widget> children(item) {
                     var li = <Widget>[];
