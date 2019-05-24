@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
                 future: fetchVideo(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    debugPrint("${snapshot.error}");
+                    debugPrint(snapshot.error.toString());
                     return Icon(Icons.error);
                   }
                   if (snapshot.connectionState != ConnectionState.done ||
