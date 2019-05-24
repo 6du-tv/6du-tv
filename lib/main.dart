@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
     double width = size.width;
     double height = size.height;
     int n;
-    final double padding = 8;
+    final double padding = 6;
 
     if (height < width) {
       n = 4;
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
       n = 2;
       width = (width - 2 * padding) / n - padding * 2;
     }
-    height = width * 1.5;
+    height = width * 297 / 210;
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.

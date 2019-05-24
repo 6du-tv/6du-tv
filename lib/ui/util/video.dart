@@ -31,6 +31,7 @@ class VideoWidgetState extends State<VideoWidget> {
   Color color = Colors.grey;
   double radius = 0;
   Color boxColor = Colors.transparent;
+  Color borderColor = Colors.black12;
 
   void _onTap() {
     setState(() {
@@ -38,10 +39,12 @@ class VideoWidgetState extends State<VideoWidget> {
         color = Colors.yellow;
         radius = 3;
         boxColor = Colors.yellow;
+        borderColor = Colors.black;
       } else {
         color = Colors.grey;
         radius = 0;
         boxColor = Colors.transparent;
+        borderColor = Colors.black12;
       }
     });
   }
@@ -61,7 +64,7 @@ class VideoWidgetState extends State<VideoWidget> {
               margin: EdgeInsets.only(bottom: widget.padding),
               height: widget.height,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
+                border: Border.all(color: borderColor, width: 1),
                 color: Colors.black12,
                 boxShadow: [
                   BoxShadow(
