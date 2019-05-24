@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:screen/screen.dart';
 import 'package:dio/dio.dart';
+import 'package:tv_6du/ui/util/video.dart';
 
 void main() => runApp(MyApp());
 
@@ -99,12 +99,12 @@ class _MainPageState extends State<MainPage> {
             child: FutureBuilder<List>(
                 future: fetchVideo(),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
-                  }
                   if (snapshot.hasError) {
                     debugPrint(snapshot.error.toString());
                     return Icon(Icons.error);
+                  }
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return CircularProgressIndicator();
                   }
                   List<Widget> children(item) {
                     var li = <Widget>[];
@@ -114,22 +114,13 @@ class _MainPageState extends State<MainPage> {
                       final o = snapshot.data[base + i];
                       li.add(Padding(
                           padding: EdgeInsets.all(padding),
-                          child: Column(children: <Widget>[
-                            Container(
-                                width: width,
-                                color: Colors.black12,
-                                margin: EdgeInsets.only(bottom: padding),
-                                height: height,
-                                child: CachedNetworkImage(
-                                    width: width,
-                                    height: height,
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        "https://tv.ucommuner.com/${o[1]}?imageView2/1/w/$imgW/h/$imgH/format/webp",
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error))),
-                            Text(o[0], style: TextStyle(color: Colors.grey))
-                          ])));
+                          child: VideoWidget(
+                            height: height,
+                            img: o[1],
+                            title: o[0],
+                            width: width,
+                            padding: padding,
+                          )));
                     }
                     return li;
                   }
