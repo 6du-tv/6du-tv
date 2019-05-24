@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
                                     height: height,
                                     fit: BoxFit.cover,
                                     imageUrl:
-                                        "https://tv.ucommuner.com/${o[1]}?imageView2/1/w/${imgW}/h/${imgH}/format/webp",
+                                        "https://tv.ucommuner.com/${o[1]}?imageView2/1/w/$imgW/h/$imgH/format/webp",
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error))),
                             Text(o[0], style: TextStyle(color: Colors.grey))
