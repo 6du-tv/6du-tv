@@ -28,8 +28,23 @@ class VideoWidget extends StatefulWidget {
 }
 
 class VideoWidgetState extends State<VideoWidget> {
-  double scale = 1;
   Color color = Colors.grey;
+  double radius = 0;
+  Color boxColor = Colors.transparent;
+
+  void _onTap() {
+    setState(() {
+      if (color == Colors.grey) {
+        color = Colors.yellow;
+        radius = 3;
+        boxColor = Colors.yellow;
+      } else {
+        color = Colors.grey;
+        radius = 0;
+        boxColor = Colors.transparent;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +54,38 @@ class VideoWidgetState extends State<VideoWidget> {
     final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
 
     return GestureDetector(
-        onTap: widget.onTap,
-        child: Transform.scale(
-            scale: scale,
-            child: Column(children: <Widget>[
-              Container(
+        onTap: _onTap,
+        child: Column(children: <Widget>[
+          Container(
+              width: widget.width,
+              margin: EdgeInsets.only(bottom: widget.padding),
+              height: widget.height,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 1),
+                color: Colors.black12,
+                boxShadow: [
+                  BoxShadow(
+                    color: boxColor,
+                    spreadRadius: radius,
+                    blurRadius: radius,
+                    offset: const Offset(0.0, 0.0),
+                  )
+                ],
+              ),
+              child: CachedNetworkImage(
                   width: widget.width,
-                  color: Colors.black12,
-                  margin: EdgeInsets.only(bottom: widget.padding),
                   height: widget.height,
-                  child: CachedNetworkImage(
-                      width: widget.width,
-                      height: widget.height,
-                      fit: BoxFit.cover,
-                      imageUrl:
-                          "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
-                      errorWidget: (context, url, error) => Icon(Icons.error))),
-              Container(
-                  width: widget.width,
-                  child: Text(widget.title,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: color),
-                      overflow: TextOverflow.fade))
-            ])));
+                  fit: BoxFit.cover,
+                  imageUrl:
+                      "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
+                  errorWidget: (context, url, error) => Icon(Icons.error))),
+          Container(
+              width: widget.width,
+              child: Text(widget.title,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: color),
+                  overflow: TextOverflow.ellipsis))
+        ]));
   }
 }
