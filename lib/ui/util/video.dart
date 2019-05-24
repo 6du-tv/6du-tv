@@ -28,6 +28,9 @@ class VideoWidget extends StatefulWidget {
 }
 
 class VideoWidgetState extends State<VideoWidget> {
+  double scale = 1;
+  Color color = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
@@ -37,20 +40,26 @@ class VideoWidgetState extends State<VideoWidget> {
 
     return GestureDetector(
         onTap: widget.onTap,
-        child: Column(children: <Widget>[
-          Container(
-              width: widget.width,
-              color: Colors.black12,
-              margin: EdgeInsets.only(bottom: widget.padding),
-              height: widget.height,
-              child: CachedNetworkImage(
+        child: Transform.scale(
+            scale: scale,
+            child: Column(children: <Widget>[
+              Container(
                   width: widget.width,
+                  color: Colors.black12,
+                  margin: EdgeInsets.only(bottom: widget.padding),
                   height: widget.height,
-                  fit: BoxFit.cover,
-                  imageUrl:
-                      "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/${imgW}/h/${imgH}/format/webp",
-                  errorWidget: (context, url, error) => Icon(Icons.error))),
-          Text(widget.title, style: TextStyle(color: Colors.grey))
-        ]));
+                  child: CachedNetworkImage(
+                      width: widget.width,
+                      height: widget.height,
+                      fit: BoxFit.cover,
+                      imageUrl:
+                          "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
+                      errorWidget: (context, url, error) => Icon(Icons.error))),
+              FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(widget.title,
+                      style: TextStyle(color: color),
+                      overflow: TextOverflow.fade))
+            ])));
   }
 }

@@ -68,11 +68,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final padding = 5.0;
     final size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
     int n;
+    final double padding = 8;
+
     if (height < width) {
       n = 4;
       width = (width - 2 * padding) / n - padding * 2;
