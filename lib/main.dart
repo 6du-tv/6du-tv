@@ -91,7 +91,7 @@ class _MainPageState extends State<MainPage> {
           go = node.focusInDirection(TraversalDirection.up);
         }
         if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-          go = (node.focusInDirection(TraversalDirection.down);
+          go = node.focusInDirection(TraversalDirection.down);
         }
         if (go) {
           final focusedChild = node.nearestScope.focusedChild;
