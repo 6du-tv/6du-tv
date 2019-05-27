@@ -86,20 +86,25 @@ class _MainPageState extends State<MainPage> {
       }
       if (event.logicalKey == LogicalKeyboardKey.arrowUp ||
           event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        double offset = 0;
+        bool go;
         if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-          if (node.focusInDirection(TraversalDirection.up)) {
-            offset = -node.rect.bottom;
-          }
+          go = node.focusInDirection(TraversalDirection.up);
         }
         if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-          if (node.focusInDirection(TraversalDirection.down)) {
-            offset = node.rect.bottom;
-          }
+          go = (node.focusInDirection(TraversalDirection.down);
         }
-        if (offset != 0) {
-          _scrollController.animateTo(_scrollController.offset + offset,
-              duration: new Duration(seconds: 1), curve: Curves.ease);
+        if (go) {
+          final focusedChild = node.nearestScope.focusedChild;
+          print(
+              "${_scrollController.offset + focusedChild.offset.dy - node.size.height / 2}");
+          _scrollController.animateTo(
+              max(
+                  _scrollController.offset +
+                      focusedChild.offset.dy -
+                      node.size.height / 2,
+                  0),
+              duration: new Duration(seconds: 1),
+              curve: Curves.ease);
         }
         return true;
       }
@@ -124,6 +129,7 @@ class _MainPageState extends State<MainPage> {
     }
     height = width * 297 / 210;
 
+    print("height $height");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
