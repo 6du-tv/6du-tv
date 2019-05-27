@@ -62,12 +62,23 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = new ScrollController();
+  }
+
   Future<List> fetchVideo() async {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
+      _scrollController.animateTo(100,
+          duration: new Duration(seconds: 2), curve: Curves.ease);
+
       print('Scope got key event: ${event.logicalKey}, $node');
       print('Keys down: ${RawKeyboard.instance.keysPressed}');
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
@@ -156,6 +167,7 @@ class _MainPageState extends State<MainPage> {
 
                           return Scrollbar(
                             child: ListView.builder(
+                              controller: _scrollController,
                               padding: EdgeInsets.all(padding),
                               itemCount: (snapshot.data.length + n - 1) ~/ n,
                               //itemCount: itemCount,
