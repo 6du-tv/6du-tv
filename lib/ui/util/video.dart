@@ -36,7 +36,7 @@ class VideoWidgetState extends State<VideoWidget> {
     final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
 
     return Focus(
-        autofocus: true,
+        autofocus: false,
         child: Builder(builder: (BuildContext context) {
           final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;

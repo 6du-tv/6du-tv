@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
-    print("$event");
+    print("\n$event");
     if (event is RawKeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         node.focusInDirection(TraversalDirection.left);
@@ -94,6 +94,8 @@ class _MainPageState extends State<MainPage> {
         if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
           go = node.focusInDirection(TraversalDirection.down);
         }
+        print("go $go");
+
         if (go) {
           final focusedChild = node.nearestScope.focusedChild;
           _scrollController.animateTo(
