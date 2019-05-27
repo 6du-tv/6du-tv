@@ -66,6 +66,30 @@ class _MainPageState extends State<MainPage> {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
+  bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
+    if (event is RawKeyDownEvent) {
+      print('Scope got key event: ${event.logicalKey}, $node');
+      print('Keys down: ${RawKeyboard.instance.keysPressed}');
+      if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+        node.focusInDirection(TraversalDirection.left);
+        return true;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+        node.focusInDirection(TraversalDirection.right);
+        return true;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+        node.focusInDirection(TraversalDirection.up);
+        return true;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        node.focusInDirection(TraversalDirection.down);
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -75,7 +99,7 @@ class _MainPageState extends State<MainPage> {
     final double padding = 6;
 
     if (height < width) {
-      n = 4;
+      n = 6;
       width = (width - 2 * padding) / n - padding * 2;
     } else {
       n = 2;
@@ -90,50 +114,58 @@ class _MainPageState extends State<MainPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    return Scaffold(
-        body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: FutureBuilder<List>(
-                future: fetchVideo(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    debugPrint(snapshot.error.toString());
-                    return Icon(Icons.error);
-                  }
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
-                  }
-                  List<Widget> children(item) {
-                    var li = <Widget>[];
-                    final base = item * n;
-                    final end = min(snapshot.data.length - base, n);
-                    for (var i = 0; i < end; ++i) {
-                      final o = snapshot.data[base + i];
-                      li.add(Padding(
-                          padding: EdgeInsets.all(padding),
-                          child: VideoWidget(
-                            img: o[1],
-                            title: o[0],
-                            width: width,
-                            height: height,
-                            padding: padding,
-                          )));
-                    }
-                    return li;
-                  }
+    return DefaultFocusTraversal(
+        policy: ReadingOrderTraversalPolicy(),
+        child: FocusScope(
+            debugLabel: 'Scope',
+            onKey: _handleKeyPress,
+            autofocus: true,
+            child: Scaffold(
+                body: Center(
+                    // Center is a layout widget. It takes a single child and positions it
+                    // in the middle of the parent.
+                    child: FutureBuilder<List>(
+                        future: fetchVideo(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            debugPrint(snapshot.error.toString());
+                            return Icon(Icons.error);
+                          }
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
+                            return CircularProgressIndicator();
+                          }
+                          List<Widget> children(item) {
+                            var li = <Widget>[];
+                            final base = item * n;
+                            final end = min(snapshot.data.length - base, n);
+                            for (var i = 0; i < end; ++i) {
+                              final o = snapshot.data[base + i];
+                              li.add(Padding(
+                                  padding: EdgeInsets.all(padding),
+                                  child: VideoWidget(
+                                    img: o[1],
+                                    title: o[0],
+                                    width: width,
+                                    height: height,
+                                    padding: padding,
+                                  )));
+                            }
+                            return li;
+                          }
 
-                  return Scrollbar(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(padding),
-                      itemCount: (snapshot.data.length + n - 1) ~/ n,
-                      //itemCount: itemCount,
-                      itemBuilder: (context, item) {
-                        return Container(child: Row(children: children(item)));
-                      },
-                    ),
-                  );
-                })) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+                          return Scrollbar(
+                            child: ListView.builder(
+                              padding: EdgeInsets.all(padding),
+                              itemCount: (snapshot.data.length + n - 1) ~/ n,
+                              //itemCount: itemCount,
+                              itemBuilder: (context, item) {
+                                return Container(
+                                    child: Row(children: children(item)));
+                              },
+                            ),
+                          );
+                        })) // This trailing comma makes auto-formatting nicer for build methods.
+                )));
   }
 }

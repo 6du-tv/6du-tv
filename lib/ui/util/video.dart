@@ -28,14 +28,23 @@ class VideoWidget extends StatefulWidget {
 }
 
 class VideoWidgetState extends State<VideoWidget> {
-  Color color = Colors.grey;
-  double radius = 0;
-  Color boxColor = Colors.transparent;
-  Color borderColor = Colors.black12;
+  @override
+  Widget build(BuildContext context) {
+    final widget = this.widget;
 
-  void _onTap() {
-    setState(() {
-      if (color == Colors.grey) {
+    final imgW = (widget.width * window.devicePixelRatio).toInt().toString();
+    final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
+
+    return Focus(child: Builder(builder: (BuildContext context) {
+      final FocusNode focusNode = Focus.of(context);
+      final bool hasFocus = focusNode.hasFocus;
+
+      Color color;
+      double radius;
+      Color boxColor;
+      Color borderColor;
+
+      if (hasFocus) {
         color = Colors.yellow;
         radius = 3;
         boxColor = Colors.yellow;
@@ -46,49 +55,43 @@ class VideoWidgetState extends State<VideoWidget> {
         boxColor = Colors.transparent;
         borderColor = Colors.black12;
       }
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final widget = this.widget;
-
-    final imgW = (widget.width * window.devicePixelRatio).toInt().toString();
-    final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
-
-    return GestureDetector(
-        onTap: _onTap,
-        child: Column(children: <Widget>[
-          Container(
-              width: widget.width,
-              margin: EdgeInsets.only(bottom: widget.padding),
-              height: widget.height,
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor, width: 1),
-                color: Colors.black12,
-                boxShadow: [
-                  BoxShadow(
-                    color: boxColor,
-                    spreadRadius: radius,
-                    blurRadius: radius,
-                    offset: const Offset(0.0, 0.0),
-                  )
-                ],
-              ),
-              child: CachedNetworkImage(
-                  width: widget.width,
-                  height: widget.height,
-                  fit: BoxFit.cover,
-                  imageUrl:
-                      "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
-                  errorWidget: (context, url, error) => Icon(Icons.error))),
-          Container(
-              width: widget.width,
-              child: Text(widget.title,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: color),
-                  overflow: TextOverflow.ellipsis))
-        ]));
+      return GestureDetector(
+          onTap: () {
+            focusNode.requestFocus();
+          },
+          child: Column(children: <Widget>[
+            Container(
+                width: widget.width,
+                margin: EdgeInsets.only(bottom: widget.padding),
+                height: widget.height,
+                decoration: BoxDecoration(
+                  border: Border.all(color: borderColor, width: 1),
+                  color: Colors.black12,
+                  boxShadow: [
+                    BoxShadow(
+                      color: boxColor,
+                      spreadRadius: radius,
+                      blurRadius: radius,
+                      offset: const Offset(0.0, 0.0),
+                    )
+                  ],
+                ),
+                child: CachedNetworkImage(
+                    width: widget.width,
+                    height: widget.height,
+                    fit: BoxFit.cover,
+                    imageUrl:
+                        "https://tv.ucommuner.com/${widget.img}?imageView2/1/w/$imgW/h/$imgH/format/webp",
+                    errorWidget: (context, url, error) => Icon(Icons.error))),
+            Container(
+                width: widget.width,
+                child: Text(widget.title,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: color),
+                    overflow: TextOverflow.ellipsis))
+          ]));
+    }));
   }
 }
