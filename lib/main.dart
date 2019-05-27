@@ -75,6 +75,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
+    print("$event");
     if (event is RawKeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         node.focusInDirection(TraversalDirection.left);
@@ -95,8 +96,6 @@ class _MainPageState extends State<MainPage> {
         }
         if (go) {
           final focusedChild = node.nearestScope.focusedChild;
-          print(
-              "${_scrollController.offset + focusedChild.offset.dy - node.size.height / 2}");
           _scrollController.animateTo(
               max(
                   _scrollController.offset +
@@ -129,7 +128,6 @@ class _MainPageState extends State<MainPage> {
     }
     height = width * 297 / 210;
 
-    print("height $height");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
