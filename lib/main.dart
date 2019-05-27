@@ -76,11 +76,6 @@ class _MainPageState extends State<MainPage> {
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      _scrollController.animateTo(100,
-          duration: new Duration(seconds: 2), curve: Curves.ease);
-
-      print('Scope got key event: ${event.logicalKey}, $node');
-      print('Keys down: ${RawKeyboard.instance.keysPressed}');
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         node.focusInDirection(TraversalDirection.left);
         return true;
@@ -89,12 +84,23 @@ class _MainPageState extends State<MainPage> {
         node.focusInDirection(TraversalDirection.right);
         return true;
       }
-      if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-        node.focusInDirection(TraversalDirection.up);
-        return true;
-      }
-      if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        node.focusInDirection(TraversalDirection.down);
+      if (event.logicalKey == LogicalKeyboardKey.arrowUp ||
+          event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        double offset = 0;
+        if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+          if (node.focusInDirection(TraversalDirection.up)) {
+            offset = -node.rect.bottom;
+          }
+        }
+        if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+          if (node.focusInDirection(TraversalDirection.down)) {
+            offset = node.rect.bottom;
+          }
+        }
+        if (offset != 0) {
+          _scrollController.animateTo(_scrollController.offset + offset,
+              duration: new Duration(seconds: 1), curve: Curves.ease);
+        }
         return true;
       }
     }
@@ -110,7 +116,7 @@ class _MainPageState extends State<MainPage> {
     final double padding = 6;
 
     if (height < width) {
-      n = 6;
+      n = 7;
       width = (width - 2 * padding) / n - padding * 2;
     } else {
       n = 2;
@@ -128,7 +134,6 @@ class _MainPageState extends State<MainPage> {
     return DefaultFocusTraversal(
         policy: ReadingOrderTraversalPolicy(),
         child: FocusScope(
-            debugLabel: 'Scope',
             onKey: _handleKeyPress,
             autofocus: true,
             child: Scaffold(
