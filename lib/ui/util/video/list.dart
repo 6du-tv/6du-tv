@@ -7,16 +7,15 @@ import 'package:flutter/rendering.dart';
 import 'package:tv_6du/ui/util/video.dart';
 
 class VideoList extends StatelessWidget {
+  final ScrollController _scrollController;
+
   Future<List> fetchVideo() async {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
-  const VideoList({
-    Key key,
-    @required ScrollController scrollController,
-  })  : _scrollController = scrollController,
+  VideoList({Key key})
+      : _scrollController = ScrollController(),
         super(key: key);
-  final ScrollController _scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +35,7 @@ class VideoList extends StatelessWidget {
     height = width * 297 / 210;
 
     return Center(
+
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: FutureBuilder<List>(
@@ -57,6 +57,7 @@ class VideoList extends StatelessWidget {
                   li.add(Padding(
                       padding: EdgeInsets.all(padding),
                       child: VideoWidget(
+                        scrollController: _scrollController,
                         img: o[1],
                         title: o[0],
                         width: width,

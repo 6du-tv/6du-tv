@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,10 +7,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 class VideoWidget extends StatefulWidget {
   final String img;
   final String title;
-  final GestureTapCallback onTap;
   final width;
   final height;
   final padding;
+  final ScrollController scrollController;
 
   const VideoWidget(
       {Key key,
@@ -18,7 +19,7 @@ class VideoWidget extends StatefulWidget {
       this.width,
       this.img,
       this.title,
-      this.onTap})
+      this.scrollController})
       : super(key: key);
 
   @override
@@ -51,6 +52,15 @@ class VideoWidgetState extends State<VideoWidget> {
             radius = 3;
             boxColor = Colors.yellow;
             borderColor = Colors.black;
+            final scrollController = this.widget.scrollController;
+            scrollController.animateTo(
+                max(
+                    scrollController.offset +
+                        focusNode.offset.dy -
+                        focusNode.size.height / 2,
+                    0),
+                duration: new Duration(seconds: 1),
+                curve: Curves.ease);
           } else {
             color = Colors.grey;
             radius = 0;

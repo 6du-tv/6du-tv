@@ -60,12 +60,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  ScrollController _scrollController;
-
   @override
   void initState() {
     super.initState();
-    _scrollController = new ScrollController();
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
@@ -89,17 +86,6 @@ class _MainPageState extends State<MainPage> {
         if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
           go = node.focusInDirection(TraversalDirection.down);
         }
-        if (go) {
-          final focusedChild = node.nearestScope.focusedChild;
-          _scrollController.animateTo(
-              max(
-                  _scrollController.offset +
-                      focusedChild.offset.dy -
-                      node.size.height / 2,
-                  0),
-              duration: new Duration(seconds: 1),
-              curve: Curves.ease);
-        }
         return true;
       }
     }
@@ -120,7 +106,6 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(
-                body: VideoList(scrollController: _scrollController))));
+            child: Scaffold(body: VideoList())));
   }
 }
