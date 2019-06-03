@@ -1,10 +1,10 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen/screen.dart';
-import 'ui/util/video/list.dart';
+import 'package:tv_6du/ui/util/menu.dart';
+import 'package:tv_6du/ui/util/video/list.dart';
 
 void main() => runApp(MyApp());
 
@@ -106,6 +106,12 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(body: VideoList())));
+            child: Scaffold(
+                body: Row(
+              children: <Widget>[
+                Menu(),
+                VideoList(),
+              ],
+            ))));
   }
 }
