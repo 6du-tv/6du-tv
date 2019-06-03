@@ -1,12 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:screen/screen.dart';
-import 'package:dio/dio.dart';
-import 'package:tv_6du/ui/util/video.dart';
+import 'ui/util/video/list.dart';
 
 void main() => runApp(MyApp());
 
@@ -68,10 +66,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _scrollController = new ScrollController();
-  }
-
-  Future<List> fetchVideo() async {
-    return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
@@ -141,53 +135,11 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(
-                body: Center(
-                    // Center is a layout widget. It takes a single child and positions it
-                    // in the middle of the parent.
-                    child: FutureBuilder<List>(
-                        future: fetchVideo(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            debugPrint(snapshot.error.toString());
-                            return Icon(Icons.error);
-                          }
-                          if (snapshot.connectionState !=
-                              ConnectionState.done) {
-                            return CircularProgressIndicator();
-                          }
-                          List<Widget> children(item) {
-                            var li = <Widget>[];
-                            final base = item * n;
-                            final end = min(snapshot.data.length - base, n);
-                            for (var i = 0; i < end; ++i) {
-                              final o = snapshot.data[base + i];
-                              li.add(Padding(
-                                  padding: EdgeInsets.all(padding),
-                                  child: VideoWidget(
-                                    img: o[1],
-                                    title: o[0],
-                                    width: width,
-                                    height: height,
-                                    padding: padding,
-                                  )));
-                            }
-                            return li;
-                          }
-
-                          return Scrollbar(
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              padding: EdgeInsets.all(padding),
-                              itemCount: (snapshot.data.length + n - 1) ~/ n,
-                              //itemCount: itemCount,
-                              itemBuilder: (context, item) {
-                                return Container(
-                                    child: Row(children: children(item)));
-                              },
-                            ),
-                          );
-                        })) // This trailing comma makes auto-formatting nicer for build methods.
-                )));
+            child: VideoList(
+                n: n,
+                padding: padding,
+                width: width,
+                height: height,
+                scrollController: _scrollController)));
   }
 }
