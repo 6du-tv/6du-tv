@@ -13,67 +13,71 @@ class VideoList extends StatelessWidget {
 
   const VideoList({
     Key key,
-    @required this.n,
-    @required this.padding,
-    @required this.width,
-    @required this.height,
     @required ScrollController scrollController,
   })  : _scrollController = scrollController,
         super(key: key);
-
-  final int n;
-  final double padding;
-  final double width;
-  final double height;
   final ScrollController _scrollController;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: FutureBuilder<List>(
-                future: fetchVideo(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    debugPrint(snapshot.error.toString());
-                    return Icon(Icons.error);
-                  }
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return CircularProgressIndicator();
-                  }
-                  List<Widget> children(item) {
-                    var li = <Widget>[];
-                    final base = item * n;
-                    final end = min(snapshot.data.length - base, n);
-                    for (var i = 0; i < end; ++i) {
-                      final o = snapshot.data[base + i];
-                      li.add(Padding(
-                          padding: EdgeInsets.all(padding),
-                          child: VideoWidget(
-                            img: o[1],
-                            title: o[0],
-                            width: width,
-                            height: height,
-                            padding: padding,
-                          )));
-                    }
-                    return li;
-                  }
+    final size = MediaQuery.of(context).size;
+    double width = size.width;
+    double height = size.height;
+    int n;
+    final double padding = 6;
 
-                  return Scrollbar(
-                    child: ListView.builder(
-                      controller: _scrollController,
+    if (height < width) {
+      n = 7;
+      width = (width - 2 * padding) / n - padding * 2;
+    } else {
+      n = 2;
+      width = (width - 2 * padding) / n - padding * 2;
+    }
+    height = width * 297 / 210;
+
+    return Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: FutureBuilder<List>(
+            future: fetchVideo(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                debugPrint(snapshot.error.toString());
+                return Icon(Icons.error);
+              }
+              if (snapshot.connectionState != ConnectionState.done) {
+                return CircularProgressIndicator();
+              }
+              List<Widget> children(item) {
+                var li = <Widget>[];
+                final base = item * n;
+                final end = min(snapshot.data.length - base, n);
+                for (var i = 0; i < end; ++i) {
+                  final o = snapshot.data[base + i];
+                  li.add(Padding(
                       padding: EdgeInsets.all(padding),
-                      itemCount: (snapshot.data.length + n - 1) ~/ n,
-                      //itemCount: itemCount,
-                      itemBuilder: (context, item) {
-                        return Container(child: Row(children: children(item)));
-                      },
-                    ),
-                  );
-                })) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+                      child: VideoWidget(
+                        img: o[1],
+                        title: o[0],
+                        width: width,
+                        height: height,
+                        padding: padding,
+                      )));
+                }
+                return li;
+              }
+
+              return Scrollbar(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: EdgeInsets.all(padding),
+                  itemCount: (snapshot.data.length + n - 1) ~/ n,
+                  //itemCount: itemCount,
+                  itemBuilder: (context, item) {
+                    return Container(child: Row(children: children(item)));
+                  },
+                ),
+              );
+            })); // This trailing comma makes auto-formatting nicer for build methods.
   }
 }

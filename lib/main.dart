@@ -108,21 +108,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double width = size.width;
-    double height = size.height;
-    int n;
-    final double padding = 6;
-
-    if (height < width) {
-      n = 7;
-      width = (width - 2 * padding) / n - padding * 2;
-    } else {
-      n = 2;
-      width = (width - 2 * padding) / n - padding * 2;
-    }
-    height = width * 297 / 210;
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -135,11 +120,7 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: VideoList(
-                n: n,
-                padding: padding,
-                width: width,
-                height: height,
-                scrollController: _scrollController)));
+            child: Scaffold(
+                body: VideoList(scrollController: _scrollController))));
   }
 }
