@@ -106,8 +106,8 @@ class _MainPageState extends State<MainPage> {
             child: Scaffold(
                 body: Row(
               children: <Widget>[
-                //    Menu(),
-                VideoList(),
+                Menu(),
+                Expanded(child: VideoList()),
               ],
             ))));
   }
