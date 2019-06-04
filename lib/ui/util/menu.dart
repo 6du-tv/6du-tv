@@ -9,27 +9,33 @@ class Menu extends StatelessWidget {
         height: 33,
         padding: EdgeInsets.only(left: padding, right: padding),
         margin: EdgeInsets.only(bottom: padding),
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF252423), Color(0xFF101010)])),
         child: Center(
           child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: li.length,
               itemBuilder: (BuildContext context, int position) {
-                return Padding(
-                    child: Text(
-                      li[position],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    padding: EdgeInsets.all(padding));
+                final FocusNode focusNode = Focus.of(context);
+                final bool hasFocus = focusNode.hasFocus;
+                print("hasFocus $hasFocus");
+                return GestureDetector(
+                  onTap: () {
+                    focusNode.requestFocus();
+                  },
+                  child: Padding(
+                      child:
+                          Focus(child: Builder(builder: (BuildContext context) {
+                        return Text(
+                          li[position],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.grey,
+                          ),
+                        );
+                      })),
+                      padding: EdgeInsets.all(padding)),
+                );
               }),
         ));
   }

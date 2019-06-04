@@ -103,6 +103,17 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(body: VideoList(Menu()))));
+            child: Scaffold(
+                body: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                          Color(0xFF000000),
+                          Color(0xFF101010),
+                          Color(0xFF1f1f2f),
+                        ])),
+                    child: VideoList(Menu())))));
   }
 }
