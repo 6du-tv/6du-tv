@@ -77,15 +77,12 @@ class _MainPageState extends State<MainPage> {
         node.focusInDirection(TraversalDirection.right);
         return true;
       }
-      if (event.logicalKey == LogicalKeyboardKey.arrowUp ||
-          event.logicalKey == LogicalKeyboardKey.arrowDown) {
-        bool go;
-        if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-          go = node.focusInDirection(TraversalDirection.up);
-        }
-        if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-          go = node.focusInDirection(TraversalDirection.down);
-        }
+      if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+        node.focusInDirection(TraversalDirection.up);
+        return true;
+      }
+      if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        node.focusInDirection(TraversalDirection.down);
         return true;
       }
     }
@@ -109,7 +106,7 @@ class _MainPageState extends State<MainPage> {
             child: Scaffold(
                 body: Row(
               children: <Widget>[
-                Menu(),
+                //    Menu(),
                 VideoList(),
               ],
             ))));
