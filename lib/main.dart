@@ -103,12 +103,6 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(
-                body: Row(
-              children: <Widget>[
-                Menu(),
-                Expanded(child: VideoList()),
-              ],
-            ))));
+            child: Scaffold(body: VideoList(Menu()))));
   }
 }

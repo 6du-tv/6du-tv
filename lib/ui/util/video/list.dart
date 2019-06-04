@@ -3,17 +3,19 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:tv_6du/ui/util/menu.dart';
 import 'package:tv_6du/ui/util/video.dart';
 
 class VideoList extends StatelessWidget {
   final ScrollController _scrollController;
-
+  final Menu _menu;
   Future<List> fetchVideo() async {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
-  VideoList({Key key})
-      : _scrollController = ScrollController(),
+  VideoList(Menu menu, {Key key})
+      : _menu = menu,
+        _scrollController = ScrollController(),
         super(key: key);
 
   @override
@@ -69,12 +71,15 @@ class VideoList extends StatelessWidget {
 
               return Scrollbar(
                 child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: padding),
                   controller: _scrollController,
-                  padding: EdgeInsets.fromLTRB(0, padding, padding, padding),
-                  itemCount: (snapshot.data.length + n - 1) ~/ n,
+                  itemCount: 1 + ((snapshot.data.length + n - 1) ~/ n),
                   //itemCount: itemCount,
                   itemBuilder: (context, item) {
-                    return Container(child: Row(children: children(item)));
+                    if (item == 0) return _menu;
+                    return Container(
+                        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+                        child: Row(children: children(item - 1)));
                   },
                 ),
               );
