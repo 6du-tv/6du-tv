@@ -8,6 +8,7 @@ class Menu extends StatelessWidget {
     return Container(
         height: 33,
         padding: EdgeInsets.only(left: padding, right: padding),
+        margin: EdgeInsets.only(bottom: padding),
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
