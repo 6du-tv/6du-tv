@@ -15,57 +15,72 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    final li = <String>["电视", "电影", "设置"];
+    final li = <String>[
+      "电视",
+      "电影",
+      "设置",
+    ];
+    List<Widget> left = <Widget>[];
+    List<Widget> right = <Widget>[];
+    List<Widget> t = left;
+    for (int position = 0; position < li.length; ++position) {
+      Widget focus = Focus(
+//                skipTraversal: this.widget.now == position,
+          child: Builder(builder: (BuildContext context) {
+        final FocusNode focusNode = Focus.of(context);
+        final bool hasFocus = focusNode.hasFocus;
+        BoxDecoration decoration;
+        Color color;
+        if (hasFocus) {
+          color = Colors.yellow;
+        } else {
+          color = Colors.grey;
+        }
+        if (position == this.widget.now) {
+          decoration = BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+            color: color,
+            width: 1.4,
+          )));
+        }
+
+        return GestureDetector(
+            onTap: () {
+              focusNode.requestFocus();
+              setState(() {
+                this.widget.now = position;
+              });
+            },
+            child: Padding(
+                child: Container(
+                    decoration: decoration,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: padding / 2),
+                      child: Text(
+                        li[position],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: color,
+                        ),
+                      ),
+                    )),
+                padding: EdgeInsets.fromLTRB(padding, padding, padding, 0)));
+      }));
+
+      if (position == 2) {
+        t = right;
+      }
+
+      t.add(focus);
+    }
+
     return Container(
         padding: EdgeInsets.only(left: padding, right: padding),
         margin: EdgeInsets.only(bottom: padding),
         child: Center(
-            child: Row(children: <Widget>[
-          for (int position = 0; position < li.length; ++position)
-            Focus(
-//                skipTraversal: this.widget.now == position,
-                child: Builder(builder: (BuildContext context) {
-              final FocusNode focusNode = Focus.of(context);
-              final bool hasFocus = focusNode.hasFocus;
-              BoxDecoration decoration;
-              Color color;
-              if (hasFocus) {
-                color = Colors.yellow;
-              } else {
-                color = Colors.grey;
-              }
-              if (position == this.widget.now) {
-                decoration = BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                  color: color,
-                  width: 1.3,
-                )));
-              }
-
-              return GestureDetector(
-                  onTap: () {
-                    focusNode.requestFocus();
-                    setState(() {
-                      this.widget.now = position;
-                    });
-                  },
-                  child: Padding(
-                      child: Container(
-                          decoration: decoration,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: padding / 2),
-                            child: Text(
-                              li[position],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: color,
-                              ),
-                            ),
-                          )),
-                      padding:
-                          EdgeInsets.fromLTRB(padding, padding, padding, 0)));
-            }))
-        ])));
+            child: Row(
+                children: <Widget>[Row(children: left), Row(children: right)],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween)));
   }
 }
