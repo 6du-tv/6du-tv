@@ -39,7 +39,7 @@ class _MenuState extends State<Menu> {
                     border: Border(
                         bottom: BorderSide(
                   color: color,
-                  width: 1.5,
+                  width: 1.3,
                 )));
               }
 
@@ -54,7 +54,7 @@ class _MenuState extends State<Menu> {
                       child: Container(
                           decoration: decoration,
                           child: Padding(
-                            padding: EdgeInsets.only(bottom: padding),
+                            padding: EdgeInsets.only(bottom: padding / 2),
                             child: Text(
                               li[position],
                               textAlign: TextAlign.center,
