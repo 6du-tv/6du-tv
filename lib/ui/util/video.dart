@@ -85,7 +85,7 @@ class VideoWidgetState extends State<VideoWidget> {
                           color: boxColor,
                           spreadRadius: radius,
                           blurRadius: radius,
-                          offset: const Offset(0.0, 0.0),
+                          offset: Offset(0.0, 0.0),
                         )
                       ],
                     ),

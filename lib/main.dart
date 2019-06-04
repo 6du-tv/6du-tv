@@ -114,6 +114,6 @@ class _MainPageState extends State<MainPage> {
                           Color(0xFF101010),
                           Color(0xFF1f1f2f),
                         ])),
-                    child: VideoList(Menu())))));
+                    child: VideoList(Menu(0))))));
   }
 }
