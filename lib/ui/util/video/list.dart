@@ -70,7 +70,7 @@ class VideoList extends StatelessWidget {
               return Scrollbar(
                 child: ListView.builder(
                   controller: _scrollController,
-                  padding: EdgeInsets.all(padding),
+                  padding: EdgeInsets.fromLTRB(0, padding, padding, padding),
                   itemCount: (snapshot.data.length + n - 1) ~/ n,
                   //itemCount: itemCount,
                   itemBuilder: (context, item) {
