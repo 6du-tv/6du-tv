@@ -16,6 +16,9 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     final li = <String>[
+      "最新",
+      "历史",
+      "收藏",
       "电视",
       "电影",
       "设置",
@@ -68,7 +71,7 @@ class _MenuState extends State<Menu> {
                 padding: EdgeInsets.fromLTRB(padding, padding, padding, 0)));
       }));
 
-      if (position == 2) {
+      if (position == 5) {
         t = right;
       }
 
