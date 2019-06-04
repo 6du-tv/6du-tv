@@ -16,64 +16,56 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     final li = <String>["电视", "电影", "设置"];
-    return Expanded(
-      child: Container(
-          padding: EdgeInsets.only(left: padding, right: padding),
-          margin: EdgeInsets.only(bottom: padding),
-          child: Center(
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: li.length,
-                itemBuilder: (BuildContext context, int position) {
-                  return Focus(
-                    skipTraversal: this.widget.now == position,
-                    child: Builder(builder: (BuildContext context) {
-                      final FocusNode focusNode = Focus.of(context);
-                      final bool hasFocus = focusNode.hasFocus;
-                      BoxDecoration decoration;
-                      Color color;
+    return Container(
+        padding: EdgeInsets.only(left: padding, right: padding),
+        margin: EdgeInsets.only(bottom: padding),
+        child: Center(
+            child: Row(children: <Widget>[
+          for (int position = 0; position < li.length; ++position)
+            Focus(
+//                skipTraversal: this.widget.now == position,
+                child: Builder(builder: (BuildContext context) {
+              final FocusNode focusNode = Focus.of(context);
+              final bool hasFocus = focusNode.hasFocus;
+              BoxDecoration decoration;
+              Color color;
+              if (hasFocus) {
+                color = Colors.yellow;
+              } else {
+                color = Colors.grey;
+              }
+              if (position == this.widget.now) {
+                decoration = BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                  color: color,
+                  width: 1.5,
+                )));
+              }
 
-                      if (position == this.widget.now) {
-                        color = Colors.grey;
-
-                        decoration = BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1.5,
-                        )));
-                      } else {
-                        color = hasFocus ? Colors.yellow : Colors.grey;
-                        decoration = null;
-                      }
-
-                      return GestureDetector(
-                          onTap: () {
-                            focusNode.requestFocus();
-                            setState(() {
-                              this.widget.now = position;
-                            });
-                          },
+              return GestureDetector(
+                  onTap: () {
+                    focusNode.requestFocus();
+                    setState(() {
+                      this.widget.now = position;
+                    });
+                  },
+                  child: Padding(
+                      child: Container(
+                          decoration: decoration,
                           child: Padding(
-                              child: Container(
-                                  decoration: decoration,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: padding),
-                                    child: Text(
-                                      li[position],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: color,
-                                      ),
-                                    ),
-                                  )),
-                              padding: EdgeInsets.fromLTRB(
-                                  padding, padding, padding, 0)));
-                    }),
-                  );
-                }),
-          )),
-    );
+                            padding: EdgeInsets.only(bottom: padding),
+                            child: Text(
+                              li[position],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: color,
+                              ),
+                            ),
+                          )),
+                      padding:
+                          EdgeInsets.fromLTRB(padding, padding, padding, 0)));
+            }))
+        ])));
   }
 }
