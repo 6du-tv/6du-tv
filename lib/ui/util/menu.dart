@@ -17,7 +17,7 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     final li = <String>["电视", "电影", "设置"];
     return Container(
-        height: 37,
+        height: 30,
         padding: EdgeInsets.only(left: padding, right: padding),
         margin: EdgeInsets.only(bottom: padding),
         child: Center(
@@ -27,25 +27,33 @@ class _MenuState extends State<Menu> {
               itemCount: li.length,
               itemBuilder: (BuildContext context, int position) {
                 return Focus(
+                  skipTraversal: this.widget.now == position,
                   child: Builder(builder: (BuildContext context) {
                     final FocusNode focusNode = Focus.of(context);
                     final bool hasFocus = focusNode.hasFocus;
                     BoxDecoration decoration;
-                    Color color = hasFocus ? Colors.yellow : Colors.grey;
-                    print("hasFocus $hasFocus");
+                    Color color;
+
                     if (position == this.widget.now) {
+                      color = Colors.grey;
+
                       decoration = BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                        color: color,
-                        width: 1,
+                        color: Colors.grey,
+                        width: 1.5,
                       )));
-                    } else
+                    } else {
+                      color = hasFocus ? Colors.yellow : Colors.grey;
                       decoration = null;
+                    }
 
                     return GestureDetector(
                         onTap: () {
                           focusNode.requestFocus();
+                          setState(() {
+                            this.widget.now = position;
+                          });
                         },
                         child: Padding(
                             child: Container(
@@ -56,12 +64,12 @@ class _MenuState extends State<Menu> {
                                     li[position],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 14.0,
                                       color: color,
                                     ),
                                   ),
                                 )),
-                            padding: EdgeInsets.all(padding)));
+                            padding: EdgeInsets.fromLTRB(
+                                padding, padding, padding, 0)));
                   }),
                 );
               }),
