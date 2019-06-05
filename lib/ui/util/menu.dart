@@ -32,7 +32,6 @@ class _MenuState extends State<Menu> {
         if (event is RawKeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
-            print("\n_MenuState $event $node");
             setState(() {
               this.now = position;
             });
