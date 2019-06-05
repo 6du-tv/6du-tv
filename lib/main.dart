@@ -110,9 +110,9 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: WillPopScope(
-                child: Scaffold(
-                    body: Container(
+            child: Scaffold(
+                body: WillPopScope(
+                    child: Container(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -122,16 +122,20 @@ class _MainPageState extends State<MainPage> {
                               Color(0xFF101010),
                               Color(0xFF1f1f2f),
                             ])),
-                        child: VideoList(Menu(), scrollController))),
-                onWillPop: () async {
-                  if (_lastPressedAt == null ||
-                      DateTime.now().difference(_lastPressedAt) >
-                          Duration(seconds: 1)) {
-                    //两次点击间隔超过1秒则重新计时
-                    _lastPressedAt = DateTime.now();
-                    return false;
-                  }
-                  return true;
-                })));
+                        child: VideoList(Menu(), scrollController)),
+                    onWillPop: () async {
+                      print("再按一次返回键退出");
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("再按一次返回键退出"),
+                      ));
+                      if (_lastPressedAt == null ||
+                          DateTime.now().difference(_lastPressedAt) >
+                              Duration(seconds: 3)) {
+                        //两次点击间隔超过1秒则重新计时
+                        _lastPressedAt = DateTime.now();
+                        return false;
+                      }
+                      return true;
+                    }))));
   }
 }
