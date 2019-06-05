@@ -10,8 +10,7 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   final padding = 6.0;
-  int now;
-  _MenuState(int now) : this.now = 0;
+  int now = 0;
 
   @override
   Widget build(BuildContext context) {
