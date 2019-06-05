@@ -66,9 +66,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
-    print("\n$event");
-
     if (event is RawKeyDownEvent) {
+      print("\n$event ${event.logicalKey}");
+
+      if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
+          event.logicalKey == LogicalKeyboardKey.enter) {
+        return true;
+      }
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
         node.focusInDirection(TraversalDirection.left);
         return true;

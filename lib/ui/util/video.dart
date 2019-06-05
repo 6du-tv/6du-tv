@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 
 class VideoWidget extends StatefulWidget {
   final String img;
@@ -29,6 +30,13 @@ class VideoWidget extends StatefulWidget {
 }
 
 class VideoWidgetState extends State<VideoWidget> {
+  bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
+    if (event is RawKeyDownEvent) {
+      print("\nVideoWidgetState $event ${event.logicalKey}");
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
@@ -37,6 +45,7 @@ class VideoWidgetState extends State<VideoWidget> {
     final imgH = (widget.height * window.devicePixelRatio).toInt().toString();
 
     return Focus(
+        onKey: _handleKeyPress,
         autofocus: true,
         child: Builder(builder: (BuildContext context) {
           final FocusNode focusNode = Focus.of(context);
