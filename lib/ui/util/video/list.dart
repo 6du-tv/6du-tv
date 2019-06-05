@@ -13,9 +13,9 @@ class VideoList extends StatelessWidget {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
-  VideoList(Menu menu, {Key key})
+  VideoList(Menu menu, ScrollController scrollController, {Key key})
       : _menu = menu,
-        _scrollController = ScrollController(),
+        _scrollController = scrollController,
         super(key: key);
 
   @override

@@ -93,6 +93,8 @@ class _MainPageState extends State<MainPage> {
     return false;
   }
 
+  DateTime _lastPressedAt; //上次点击时间
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -101,23 +103,35 @@ class _MainPageState extends State<MainPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    final scrollController = ScrollController();
 
     return DefaultFocusTraversal(
         policy: ReadingOrderTraversalPolicy(),
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(
-                body: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                          Color(0xFF000000),
-                          Color(0xFF101010),
-                          Color(0xFF1f1f2f),
-                        ])),
-                    child: VideoList(Menu())))));
+            child: WillPopScope(
+                child: Scaffold(
+                    body: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                              Color(0xFF000000),
+                              Color(0xFF101010),
+                              Color(0xFF1f1f2f),
+                            ])),
+                        child: VideoList(Menu(), scrollController))),
+                onWillPop: () async {
+                  if (_lastPressedAt == null ||
+                      DateTime.now().difference(_lastPressedAt) >
+                          Duration(seconds: 1)) {
+                    //两次点击间隔超过1秒则重新计时
+                    _lastPressedAt = DateTime.now();
+                    return false;
+                  }
+                  return true;
+                })));
   }
 }
