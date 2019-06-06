@@ -73,8 +73,9 @@ class _MainPageState extends State<MainPage> {
 
       if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
         scrollController.jumpTo(0);
-        DefaultFocusTraversal.of(context).findFirstFocus(node);
-
+        node.unfocus();
+        node.ancestors.first.requestFocus();
+        //.requestFocus();
         return true;
       }
       if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
