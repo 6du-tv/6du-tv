@@ -62,6 +62,7 @@ class VideoListState extends State<VideoList> {
               li.add(Padding(
                   padding: EdgeInsets.all(padding),
                   child: VideoWidget(
+                    key: "video$i",
                     scrollController: widget._scrollController,
                     img: o[1],
                     title: o[0],
