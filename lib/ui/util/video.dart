@@ -14,7 +14,7 @@ class VideoWidget extends StatefulWidget {
   final ScrollController scrollController;
   final bool Function(FocusNode node, RawKeyEvent event) onKey;
 
-  const VideoWidget(this.scrollController,
+  VideoWidget(this.scrollController,
       {Key key,
       this.padding,
       this.height,
