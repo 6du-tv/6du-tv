@@ -73,9 +73,8 @@ class _MainPageState extends State<MainPage> {
 
       if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
         scrollController.jumpTo(0);
-        node.unfocus();
-        node.ancestors.first.requestFocus();
-        //.requestFocus();
+        DefaultFocusTraversal.of(context)
+            .inDirection(node.children.first, TraversalDirection.down);
         return true;
       }
       if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
@@ -135,13 +134,13 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: Colors.black,
                   duration: Duration(
                       milliseconds: duration * 1000 - 250), // 250是显示动画时长
-                  content: Text("再按一次返回键退出",
+                  content: Text("连按两次返回键退出",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.deepOrange)),
                 ));
                 if (_lastPressedAt == null ||
                     DateTime.now().difference(_lastPressedAt) >
-                        Duration(seconds: duration)) {
+                        Duration(seconds: 1)) {
                   _lastPressedAt = DateTime.now();
                   return false;
                 }
