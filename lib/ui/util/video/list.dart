@@ -70,15 +70,12 @@ class VideoListState extends State<VideoList> {
                       padding: padding,
                       onKey: (FocusNode node, RawKeyEvent event) {
                     if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
-                      node.unfocus();
+//                      node.unfocus();
                       scrollController.jumpTo(0);
                       return true;
                     }
                     return false;
                   })));
-            }
-            if (item == 0) {
-              print("this.widget._focusScope.focusNode ${this}");
             }
             return li;
           }
