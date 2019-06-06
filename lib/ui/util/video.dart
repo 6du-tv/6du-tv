@@ -24,14 +24,25 @@ class VideoWidget extends StatefulWidget {
       this.onKey})
       : super(key: key);
 
+  VideoWidgetState _state;
+
   @override
   State<StatefulWidget> createState() {
-    return VideoWidgetState();
+    _state = VideoWidgetState();
+    return _state;
+  }
+
+  void focus() {
+    this._state.focus();
   }
 }
 
 class VideoWidgetState extends State<VideoWidget> {
-  void focus() {}
+  FocusNode _focus;
+  void focus() {
+    _focus.requestFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
@@ -43,7 +54,7 @@ class VideoWidgetState extends State<VideoWidget> {
         autofocus: true,
         onKey: this.widget.onKey,
         child: Builder(builder: (BuildContext context) {
-          final FocusNode focusNode = Focus.of(context);
+          final FocusNode focusNode = _focus = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;
 
           Color color;
