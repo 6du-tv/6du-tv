@@ -72,9 +72,16 @@ class _MainPageState extends State<MainPage> {
       print("\n$event ${event.logicalKey}");
 
       if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
+        node.unfocus();
         scrollController.jumpTo(0);
-        DefaultFocusTraversal.of(context)
-            .inDirection(node.children.first, TraversalDirection.down);
+        int n = 0;
+        node.nearestScope.children.forEach((i) {
+          print("> $i ${++n}");
+        });
+        node.nearestScope.children.first.requestFocus();
+
+        print(
+            "node.nearestScope.children.first ${node.nearestScope.children.first}");
         return true;
       }
       if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
