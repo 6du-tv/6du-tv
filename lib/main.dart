@@ -60,6 +60,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -69,6 +71,12 @@ class _MainPageState extends State<MainPage> {
     if (event is RawKeyDownEvent) {
       print("\n$event ${event.logicalKey}");
 
+      if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
+        scrollController.jumpTo(0);
+        DefaultFocusTraversal.of(context).findFirstFocus(node);
+
+        return true;
+      }
       if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
           event.logicalKey == LogicalKeyboardKey.enter) {
         return true;
@@ -108,7 +116,6 @@ class _MainPageState extends State<MainPage> {
         autofocus: true,
         child: Scaffold(body: Builder(builder: (context) {
           final int duration = 3;
-          final scrollController = ScrollController();
 
           return WillPopScope(
               child: Container(
@@ -121,7 +128,7 @@ class _MainPageState extends State<MainPage> {
                         Color(0xFF101010),
                         Color(0xFF1f1f2f),
                       ])),
-                  child: VideoList(Menu(), scrollController)),
+                  child: Center(child: VideoList(Menu(), scrollController))),
               onWillPop: () async {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.black,
@@ -135,7 +142,6 @@ class _MainPageState extends State<MainPage> {
                     DateTime.now().difference(_lastPressedAt) >
                         Duration(seconds: duration)) {
                   _lastPressedAt = DateTime.now();
-                  scrollController.jumpTo(0);
                   return false;
                 }
 
