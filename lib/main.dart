@@ -103,48 +103,46 @@ class _MainPageState extends State<MainPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    Widget focusScope = FocusScope(
+        onKey: _handleKeyPress,
+        autofocus: true,
+        child: Scaffold(body: Builder(builder: (context) {
+          final int duration = 3;
+          final scrollController = ScrollController();
 
+          return WillPopScope(
+              child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Color(0xFF000000),
+                        Color(0xFF101010),
+                        Color(0xFF1f1f2f),
+                      ])),
+                  child: VideoList(Menu(), scrollController)),
+              onWillPop: () async {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.black,
+                  duration: Duration(
+                      milliseconds: duration * 1000 - 250), // 250是显示动画时长
+                  content: Text("再按一次返回键退出",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.deepOrange)),
+                ));
+                if (_lastPressedAt == null ||
+                    DateTime.now().difference(_lastPressedAt) >
+                        Duration(seconds: duration)) {
+                  _lastPressedAt = DateTime.now();
+                  scrollController.jumpTo(0);
+                  return false;
+                }
+
+                return true;
+              });
+        })));
     return DefaultFocusTraversal(
-        policy: ReadingOrderTraversalPolicy(),
-        child: FocusScope(
-            onKey: _handleKeyPress,
-            autofocus: true,
-            child: Scaffold(body: Builder(builder: (context) {
-              final int duration = 3;
-              final scrollController = ScrollController();
-
-              return WillPopScope(
-                  child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                            Color(0xFF000000),
-                            Color(0xFF101010),
-                            Color(0xFF1f1f2f),
-                          ])),
-                      child: VideoList(Menu(), scrollController)),
-                  onWillPop: () async {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      backgroundColor: Colors.black,
-                      duration: Duration(
-                          milliseconds: duration * 1000 - 250), // 250是显示动画时长
-                      content: Text("再按一次返回键退出",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.deepOrange)),
-                    ));
-
-                    if (_lastPressedAt == null ||
-                        DateTime.now().difference(_lastPressedAt) >
-                            Duration(seconds: duration)) {
-                      _lastPressedAt = DateTime.now();
-                      return false;
-                    }
-                    scrollController.animateTo(0,
-                        duration: Duration(seconds: 1), curve: Curves.ease);
-                    return true;
-                  });
-            }))));
+        policy: ReadingOrderTraversalPolicy(), child: focusScope);
   }
 }

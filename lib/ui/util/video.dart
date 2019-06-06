@@ -46,7 +46,6 @@ class VideoWidgetState extends State<VideoWidget> {
 
     return Focus(
         onKey: _handleKeyPress,
-        autofocus: true,
         child: Builder(builder: (BuildContext context) {
           final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;
