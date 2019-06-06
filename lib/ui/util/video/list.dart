@@ -48,7 +48,10 @@ class VideoListState extends State<VideoList> {
             return Icon(Icons.error);
           }
           if (snapshot.connectionState != ConnectionState.done) {
-            return CircularProgressIndicator();
+            return Column(children: <Widget>[
+              widget._menu,
+              Expanded(child: Center(child: CircularProgressIndicator()))
+            ]);
           }
           List<Widget> children(item) {
             var li = <Widget>[];
