@@ -71,6 +71,8 @@ class VideoListState extends State<VideoList> {
                       onKey: (FocusNode node, RawKeyEvent event) {
                     if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
                       node.unfocus();
+//                      node.ancestors.firstWhere(test)
+//                      node.requestFocus()
                       scrollController.jumpTo(0);
                       return true;
                     }
@@ -78,7 +80,7 @@ class VideoListState extends State<VideoList> {
                   })));
             }
             if (item == 0) {
-              print("Focus.of(context) ${Focus.of(context)}");
+              //  print("Focus.of(context) ${Focus.of(context)}");
             }
             return li;
           }
