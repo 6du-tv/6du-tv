@@ -32,7 +32,7 @@ class VideoWidget extends StatefulWidget {
 class VideoWidgetState extends State<VideoWidget> {
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      print("\nVideoWidgetState $event ${event.logicalKey}");
+      print("\nVideoWidgetState TODO");
     }
     return false;
   }
