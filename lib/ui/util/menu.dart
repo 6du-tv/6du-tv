@@ -30,7 +30,7 @@ class _MenuState extends State<Menu> {
           //                skipTraversal: this.widget.now == position,
           onKey: (FocusNode node, RawKeyEvent event) {
         if (event is RawKeyDownEvent) {
-          if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
+          if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
             setState(() {
               this.now = position;

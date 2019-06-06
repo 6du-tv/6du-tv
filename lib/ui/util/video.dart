@@ -12,15 +12,16 @@ class VideoWidget extends StatefulWidget {
   final height;
   final padding;
   final ScrollController scrollController;
+  final bool Function(FocusNode node, RawKeyEvent event) onKey;
 
-  const VideoWidget(
+  const VideoWidget(this.scrollController,
       {Key key,
       this.padding,
       this.height,
       this.width,
       this.img,
       this.title,
-      this.scrollController})
+      this.onKey})
       : super(key: key);
 
   @override
@@ -30,13 +31,7 @@ class VideoWidget extends StatefulWidget {
 }
 
 class VideoWidgetState extends State<VideoWidget> {
-  bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
-    if (event is RawKeyDownEvent) {
-      print("\nVideoWidgetState TODO");
-    }
-    return false;
-  }
-
+  void focus() {}
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
@@ -46,7 +41,7 @@ class VideoWidgetState extends State<VideoWidget> {
 
     return Focus(
         autofocus: true,
-        onKey: _handleKeyPress,
+        onKey: this.widget.onKey,
         child: Builder(builder: (BuildContext context) {
           final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;

@@ -60,8 +60,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final scrollController = ScrollController();
-
   @override
   void initState() {
     super.initState();
@@ -71,21 +69,6 @@ class _MainPageState extends State<MainPage> {
     if (event is RawKeyDownEvent) {
       print("\n$event ${event.logicalKey}");
 
-      if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
-        node.unfocus();
-        scrollController.jumpTo(0);
-        int n = 0;
-        node.nearestScope.children.forEach((i) {
-          print("> $i ${++n}");
-          print("i.context ${i.context}");
-        });
-        FocusNode first = node.nearestScope.children.first;
-        first.requestFocus();
-
-        print(
-            "node.nearestScope.children.first ${node.nearestScope.children.first}");
-        return true;
-      }
       if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
           event.logicalKey == LogicalKeyboardKey.enter) {
         return true;
@@ -137,7 +120,7 @@ class _MainPageState extends State<MainPage> {
                         Color(0xFF101010),
                         Color(0xFF1f1f2f),
                       ])),
-                  child: Center(child: VideoList(Menu(), scrollController))),
+                  child: Center(child: VideoList(Menu()))),
               onWillPop: () async {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.black,

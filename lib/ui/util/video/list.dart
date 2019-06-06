@@ -3,15 +3,14 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:tv_6du/ui/util/menu.dart';
 import 'package:tv_6du/ui/util/video.dart';
 
 class VideoList extends StatefulWidget {
-  final ScrollController _scrollController;
   final Menu _menu;
-  VideoList(Menu menu, ScrollController scrollController, {Key key})
+  VideoList(Menu menu, {Key key})
       : _menu = menu,
-        _scrollController = scrollController,
         super(key: key);
 
   @override
@@ -28,6 +27,7 @@ class VideoListState extends State<VideoList> {
     final size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
+    final scrollController = ScrollController();
     int n;
     final double padding = 6;
 
@@ -59,17 +59,26 @@ class VideoListState extends State<VideoList> {
             final end = min(snapshot.data.length - base, n);
             for (var i = 0; i < end; ++i) {
               final o = snapshot.data[base + i];
+
               li.add(Padding(
                   padding: EdgeInsets.all(padding),
-                  child: VideoWidget(
-                    key: "video$i",
-                    scrollController: widget._scrollController,
-                    img: o[1],
-                    title: o[0],
-                    width: width,
-                    height: height,
-                    padding: padding,
-                  )));
+                  child: VideoWidget(scrollController,
+                      img: o[1],
+                      title: o[0],
+                      width: width,
+                      height: height,
+                      padding: padding,
+                      onKey: (FocusNode node, RawKeyEvent event) {
+                    if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
+                      node.unfocus();
+                      scrollController.jumpTo(0);
+                      return true;
+                    }
+                    return false;
+                  })));
+            }
+            if (item == 0) {
+              print("this.widget._focusScope.focusNode ${this}");
             }
             return li;
           }
@@ -77,7 +86,7 @@ class VideoListState extends State<VideoList> {
           return Scrollbar(
             child: ListView.builder(
               padding: EdgeInsets.only(bottom: padding),
-              controller: widget._scrollController,
+              controller: scrollController,
               itemCount: 1 + ((snapshot.data.length + n - 1) ~/ n),
               //itemCount: itemCount,
               itemBuilder: (context, item) {
