@@ -68,7 +68,7 @@ class VideoWidgetState extends State<VideoWidget> {
                         focusNode.offset.dy -
                         focusNode.size.height / 2,
                     0),
-                duration: new Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 curve: Curves.ease);
           } else {
             color = Colors.grey;

@@ -103,7 +103,6 @@ class _MainPageState extends State<MainPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    final scrollController = ScrollController();
 
     return DefaultFocusTraversal(
         policy: ReadingOrderTraversalPolicy(),
@@ -111,7 +110,9 @@ class _MainPageState extends State<MainPage> {
             onKey: _handleKeyPress,
             autofocus: true,
             child: Scaffold(body: Builder(builder: (context) {
-              final int duration = 2;
+              final int duration = 3;
+              final scrollController = ScrollController();
+
               return WillPopScope(
                   child: Container(
                       decoration: BoxDecoration(
@@ -127,23 +128,21 @@ class _MainPageState extends State<MainPage> {
                   onWillPop: () async {
                     Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.black,
-                      duration: Duration(milliseconds: duration * 1000 - 250),
+                      duration: Duration(
+                          milliseconds: duration * 1000 - 250), // 250是显示动画时长
                       content: Text("再按一次返回键退出",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.deepOrange)),
                     ));
-                    print("再按一次返回键退出");
 
                     if (_lastPressedAt == null ||
                         DateTime.now().difference(_lastPressedAt) >
                             Duration(seconds: duration)) {
-                      //两次点击间隔超过1秒则重新计时
-                      print("return false");
                       _lastPressedAt = DateTime.now();
                       return false;
                     }
-                    print("return true");
-
+                    scrollController.animateTo(0,
+                        duration: Duration(seconds: 1), curve: Curves.ease);
                     return true;
                   });
             }))));
