@@ -110,37 +110,42 @@ class _MainPageState extends State<MainPage> {
         child: FocusScope(
             onKey: _handleKeyPress,
             autofocus: true,
-            child: Scaffold(
-                body: Builder(
-                    builder: (context) => WillPopScope(
-                        child: Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                  Color(0xFF000000),
-                                  Color(0xFF101010),
-                                  Color(0xFF1f1f2f),
-                                ])),
-                            child: VideoList(Menu(), scrollController)),
-                        onWillPop: () async {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text("再按一次返回键退出"),
-                          ));
-                          print("再按一次返回键退出");
+            child: Scaffold(body: Builder(builder: (context) {
+              final int duration = 2;
+              return WillPopScope(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                            Color(0xFF000000),
+                            Color(0xFF101010),
+                            Color(0xFF1f1f2f),
+                          ])),
+                      child: VideoList(Menu(), scrollController)),
+                  onWillPop: () async {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.black,
+                      duration: Duration(milliseconds: duration * 1000 - 250),
+                      content: Text("再按一次返回键退出",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.deepOrange)),
+                    ));
+                    print("再按一次返回键退出");
 
-                          if (_lastPressedAt == null ||
-                              DateTime.now().difference(_lastPressedAt) >
-                                  Duration(seconds: 3)) {
-                            //两次点击间隔超过1秒则重新计时
-                            print("return false");
-                            _lastPressedAt = DateTime.now();
-                            return false;
-                          }
-                          print("return true");
+                    if (_lastPressedAt == null ||
+                        DateTime.now().difference(_lastPressedAt) >
+                            Duration(seconds: duration)) {
+                      //两次点击间隔超过1秒则重新计时
+                      print("return false");
+                      _lastPressedAt = DateTime.now();
+                      return false;
+                    }
+                    print("return true");
 
-                          return true;
-                        })))));
+                    return true;
+                  });
+            }))));
   }
 }
