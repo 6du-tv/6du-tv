@@ -77,8 +77,10 @@ class _MainPageState extends State<MainPage> {
         int n = 0;
         node.nearestScope.children.forEach((i) {
           print("> $i ${++n}");
+          print("i.context ${i.context}");
         });
-        node.nearestScope.children.first.requestFocus();
+        FocusNode first = node.nearestScope.children.first;
+        first.requestFocus();
 
         print(
             "node.nearestScope.children.first ${node.nearestScope.children.first}");
