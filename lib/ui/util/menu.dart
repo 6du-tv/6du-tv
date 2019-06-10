@@ -3,15 +3,16 @@ import 'package:flutter/services.dart';
 
 class Menu extends StatefulWidget {
   @override
-  _MenuState createState() => _MenuState();
-
-  Menu({Key key}) : super(key: key);
+  _MenuState createState() => _MenuState(position);
+  final Function(List<String>, int) goto;
+  final int position;
+  Menu(this.goto, this.position, {Key key}) : super(key: key);
 }
 
 class _MenuState extends State<Menu> {
   final padding = 6.0;
-  int now = 0;
-
+  int now;
+  _MenuState(this.now);
   @override
   Widget build(BuildContext context) {
     final li = <String>[
@@ -23,7 +24,7 @@ class _MenuState extends State<Menu> {
       "设置",
     ];
     final url = <String>[
-      '',
+      'lastest',
       'histroy',
       'star',
       'tv',
@@ -41,8 +42,9 @@ class _MenuState extends State<Menu> {
           if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
             setState(() {
-              Navigator.of(context).pushNamed(url[position]);
+              this.now = position;
             });
+            this.widget.goto(url, position);
             return true;
           }
         }
@@ -71,7 +73,11 @@ class _MenuState extends State<Menu> {
 
         return GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(url[position]);
+              focusNode.requestFocus();
+              setState(() {
+                this.now = position;
+              });
+              this.widget.goto(url, position);
             },
             child: Padding(
                 child: Container(

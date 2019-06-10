@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen/screen.dart';
-import 'package:tv_6du/ui/util/menu.dart';
 import 'package:tv_6du/ui/util/video/list.dart';
 
 void main() => runApp(MyApp());
@@ -33,26 +32,11 @@ class MyApp extends StatelessWidget {
     Screen.keepOn(true);
 
     return MaterialApp(
-        title: title,
-        theme: theme,
-        debugShowCheckedModeBanner: false,
-        home: MainPage(title: title),
-        initialRoute: '',
-        routes: <String, WidgetBuilder>{
-          '': (BuildContext context) => MainPage(),
-          'history': (BuildContext context) => MainPage(),
-          'star': (BuildContext context) => MainPage(),
-          'tv': (BuildContext context) => MainPage(),
-          'film': (BuildContext context) => MainPage(),
-          'setting': (BuildContext context) => SettingPage(),
-        });
-  }
-}
-
-class SettingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Menu());
+      title: title,
+      theme: theme,
+      debugShowCheckedModeBanner: false,
+      home: MainPage(title: title),
+    );
   }
 }
 

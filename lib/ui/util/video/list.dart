@@ -8,10 +8,7 @@ import 'package:tv_6du/ui/util/menu.dart';
 import 'package:tv_6du/ui/util/video.dart';
 
 class VideoList extends StatefulWidget {
-  final Menu _menu;
-  VideoList({Key key})
-      : _menu = Menu(),
-        super(key: key);
+  VideoList({Key key}) : super(key: key);
 
   @override
   VideoListState createState() {
@@ -20,8 +17,16 @@ class VideoList extends StatefulWidget {
 }
 
 class VideoListState extends State<VideoList> {
+  int _position = 0;
   Future<List> fetchVideo() async {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
+  }
+
+  void goto(List<String> url, int position) {
+    setState(() {
+      _position = position;
+    });
+    print("goto ${url[position]}");
   }
 
   @override
@@ -45,13 +50,14 @@ class VideoListState extends State<VideoList> {
     return FutureBuilder<List>(
         future: fetchVideo(),
         builder: (context, snapshot) {
+          Menu _menu = Menu(goto, _position);
           if (snapshot.hasError) {
             debugPrint(snapshot.error.toString());
             return Icon(Icons.error);
           }
           if (snapshot.connectionState != ConnectionState.done) {
             return Column(children: <Widget>[
-              widget._menu,
+              _menu,
               Expanded(child: Center(child: CircularProgressIndicator()))
             ]);
           }
@@ -91,7 +97,7 @@ class VideoListState extends State<VideoList> {
               itemCount: 1 + ((snapshot.data.length + n - 1) ~/ n),
               //itemCount: itemCount,
               itemBuilder: (context, item) {
-                if (item == 0) return widget._menu;
+                if (item == 0) return _menu;
                 return Container(
                     padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
                     child: Row(children: children(item - 1)));
