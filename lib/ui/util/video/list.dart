@@ -144,8 +144,13 @@ class VideoListState extends State<VideoList> {
         future: PackageInfo.fromPlatform(),
         builder: _builder((context, data) {
           return ListBuilder((context, item) {
-            return Text(
-                "${data.appName} ${data.packageName} version ${data.version} buildNumber ${data.buildNumber}");
+            return Center(
+              child: Focus(
+                autofocus: true,
+                child: Text(
+                    "${data.appName} ${data.packageName} version ${data.version} buildNumber ${data.buildNumber}"),
+              ),
+            );
           }, 1);
         }));
   }
