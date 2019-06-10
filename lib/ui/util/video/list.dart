@@ -137,23 +137,34 @@ class VideoListState extends State<VideoList> {
   }
 
   Widget _setting() {
-    /*  
-    String version = packageInfo.version;
-    String buildNumber = packageInfo.buildNumber;
-    return Focus(autofocus: true, child: Text("版本号 $version ($buildNumber)"));
-    */
     return FutureBuilder<PackageInfo>(
         future: PackageInfo.fromPlatform(),
         builder: _builder((context, data) {
           return ListBuilder((context, item) {
-            return Center(
-              child: Focus(
-                onKey: _onKey,
-                autofocus: true,
-                child: Text(
-                    "${data.appName} ${data.packageName} version ${data.version} buildNumber ${data.buildNumber}"),
-              ),
-            );
+            final theme = Theme.of(context);
+            return Container(
+                padding: EdgeInsets.fromLTRB(
+                    padding * 2, padding, padding * 2, padding),
+                child: Row(children: [
+                  Expanded(child: Text("${data.appName} ${data.version}")),
+                  Expanded(
+                    child: Focus(
+                      onKey: (FocusNode node, RawKeyEvent event) {
+                        return _onKey(node, event);
+                      },
+                      autofocus: true,
+                      child: OutlineButton(
+                        onPressed: () {
+                          /*...*/
+                        },
+                        shape: StadiumBorder(),
+                        borderSide: BorderSide(color: theme.buttonColor),
+                        child: Text("检测更新",
+                            style: TextStyle(color: theme.buttonColor)),
+                      ),
+                    ),
+                  )
+                ]));
           }, 1);
         }));
   }
