@@ -167,7 +167,7 @@ class VideoListState extends State<VideoList> {
                                 Text(text, style: TextStyle(color: textColor)),
                           );
                         } else {
-                          textColor = theme.buttonColor;
+                          textColor = Colors.grey;
                           return OutlineButton(
                             onPressed: onPress,
                             borderSide: BorderSide(color: textColor),
