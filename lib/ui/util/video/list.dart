@@ -70,7 +70,13 @@ class VideoListState extends State<VideoList> {
 
             switch (_url) {
               case 'setting':
-                li.add(Focus(autofocus: true, child: Text("setting")));
+                PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+                String version = packageInfo.version;
+                String buildNumber = packageInfo.buildNumber;
+                li.add(Focus(
+                    autofocus: true,
+                    child: Text("版本号 $version ($buildNumber)")));
                 break;
               default:
                 final base = item * n;

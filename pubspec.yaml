@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   screen: ^0.0.5
+  package_info: ^0.4.0+4
   dio: ^2.1.5
   cached_network_image: ^0.8.0
 
