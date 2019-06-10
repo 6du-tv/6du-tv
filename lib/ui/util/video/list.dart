@@ -18,15 +18,19 @@ class VideoList extends StatefulWidget {
 
 class VideoListState extends State<VideoList> {
   int _position = 0;
+  String _url;
   Future<List> fetchVideo() async {
     return (await Dio().get('https://auth.html.ucommuner.com/test.json')).data;
   }
 
   void goto(List<String> url, int position) {
+    DefaultFocusTraversal.of(context).changedScope();
+
     setState(() {
       _position = position;
     });
-    print("goto ${url[position]}");
+    _url = url[position];
+    print("goto $_url");
   }
 
   @override
@@ -62,30 +66,35 @@ class VideoListState extends State<VideoList> {
             ]);
           }
           List<Widget> children(item) {
-            var li = <Widget>[];
-            final base = item * n;
-            final end = min(snapshot.data.length - base, n);
-            for (var i = 0; i < end; ++i) {
-              final o = snapshot.data[base + i];
+            List<Widget> li = <Widget>[];
 
-              li.add(Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: VideoWidget(scrollController,
-                      img: o[1],
-                      title: o[0],
-                      width: width,
-                      height: height,
-                      padding: padding,
-                      onKey: (FocusNode node, RawKeyEvent event) {
-                    if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
-                      setState(() {});
-                      return true;
-                    }
-                    return false;
-                  })));
-            }
-            if (item == 0) {
-              //  print("Focus.of(context) ${Focus.of(context)}");
+            switch (_url) {
+              case 'setting':
+                li.add(Focus(autofocus: true, child: Text("setting")));
+                break;
+              default:
+                final base = item * n;
+                final end = min(snapshot.data.length - base, n);
+                for (var i = 0; i < end; ++i) {
+                  final o = snapshot.data[base + i];
+
+                  li.add(Padding(
+                      padding: EdgeInsets.all(padding),
+                      child: VideoWidget(scrollController,
+                          img: o[1],
+                          title: o[0],
+                          width: width,
+                          height: height,
+                          padding: padding,
+                          onKey: (FocusNode node, RawKeyEvent event) {
+                        if (event.logicalKey ==
+                            LogicalKeyboardKey(0x10200000004)) {
+                          setState(() {});
+                          return true;
+                        }
+                        return false;
+                      })));
+                }
             }
             return li;
           }
