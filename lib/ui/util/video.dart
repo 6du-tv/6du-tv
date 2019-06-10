@@ -13,6 +13,7 @@ class VideoWidget extends StatefulWidget {
   final padding;
   final ScrollController scrollController;
   final bool Function(FocusNode node, RawKeyEvent event) onKey;
+  final VideoWidgetState _state;
 
   VideoWidget(this.scrollController,
       {Key key,
@@ -22,13 +23,11 @@ class VideoWidget extends StatefulWidget {
       this.img,
       this.title,
       this.onKey})
-      : super(key: key);
-
-  VideoWidgetState _state;
+      : _state = VideoWidgetState(),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    _state = VideoWidgetState();
     return _state;
   }
 
