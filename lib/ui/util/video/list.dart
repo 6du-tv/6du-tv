@@ -35,8 +35,6 @@ class VideoListState extends State<VideoList> {
   }
 
   void goto(List<String> url, int position) {
-    DefaultFocusTraversal.of(context).changedScope();
-
     setState(() {
       _position = position;
     });
@@ -153,15 +151,29 @@ class VideoListState extends State<VideoList> {
                         return _onKey(node, event);
                       },
                       autofocus: true,
-                      child: OutlineButton(
-                        onPressed: () {
-                          /*...*/
-                        },
-                        shape: StadiumBorder(),
-                        borderSide: BorderSide(color: theme.buttonColor),
-                        child: Text("检测更新",
-                            style: TextStyle(color: theme.buttonColor)),
-                      ),
+                      child: Builder(builder: (BuildContext context) {
+                        final FocusNode focusNode = Focus.of(context);
+                        Color bg, textColor;
+                        if (focusNode.hasFocus) {
+                          bg = theme.buttonColor;
+                          textColor = theme.primaryColor;
+                        } else {
+                          bg = Colors.transparent;
+                          textColor = theme.buttonColor;
+                        }
+                        OutlineButton btn = OutlineButton(
+                          onPressed: () {
+                            /*...*/
+                          },
+                          color: bg,
+                          shape: StadiumBorder(),
+                          borderSide: BorderSide(color: theme.buttonColor),
+                          child:
+                              Text("检测更新", style: TextStyle(color: textColor)),
+                        );
+
+                        return btn;
+                      }),
                     ),
                   )
                 ]));
