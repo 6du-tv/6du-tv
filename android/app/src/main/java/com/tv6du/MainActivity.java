@@ -1,4 +1,4 @@
-package tv.6du;
+package com.tv6du;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
