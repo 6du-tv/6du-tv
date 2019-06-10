@@ -9,12 +9,14 @@ import 'package:tv_6du/ui/util/video.dart';
 
 class VideoList extends StatefulWidget {
   final Menu _menu;
-  VideoList(Menu menu, {Key key})
-      : _menu = menu,
+  VideoList({Key key})
+      : _menu = Menu(),
         super(key: key);
 
   @override
-  VideoListState createState() => VideoListState();
+  VideoListState createState() {
+    return VideoListState();
+  }
 }
 
 class VideoListState extends State<VideoList> {
@@ -70,10 +72,7 @@ class VideoListState extends State<VideoList> {
                       padding: padding,
                       onKey: (FocusNode node, RawKeyEvent event) {
                     if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
-                      node.unfocus();
-//                      node.ancestors.firstWhere(test)
-//                      node.requestFocus()
-                      scrollController.jumpTo(0);
+                      setState(() {});
                       return true;
                     }
                     return false;

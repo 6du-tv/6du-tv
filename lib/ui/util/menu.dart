@@ -22,6 +22,14 @@ class _MenuState extends State<Menu> {
       "电影",
       "设置",
     ];
+    final url = <String>[
+      '',
+      'histroy',
+      'star',
+      'tv',
+      'film',
+      'setting',
+    ];
     List<Widget> left = <Widget>[];
     List<Widget> right = <Widget>[];
     List<Widget> t = left;
@@ -33,7 +41,7 @@ class _MenuState extends State<Menu> {
           if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
             setState(() {
-              this.now = position;
+              Navigator.of(context).pushNamed(url[position]);
             });
             return true;
           }
@@ -63,10 +71,7 @@ class _MenuState extends State<Menu> {
 
         return GestureDetector(
             onTap: () {
-              focusNode.requestFocus();
-              setState(() {
-                this.now = position;
-              });
+              Navigator.of(context).pushNamed(url[position]);
             },
             child: Padding(
                 child: Container(

@@ -33,11 +33,26 @@ class MyApp extends StatelessWidget {
     Screen.keepOn(true);
 
     return MaterialApp(
-      title: title,
-      theme: theme,
-      debugShowCheckedModeBanner: false,
-      home: MainPage(title: title),
-    );
+        title: title,
+        theme: theme,
+        debugShowCheckedModeBanner: false,
+        home: MainPage(title: title),
+        initialRoute: '',
+        routes: <String, WidgetBuilder>{
+          '': (BuildContext context) => MainPage(),
+          'history': (BuildContext context) => MainPage(),
+          'star': (BuildContext context) => MainPage(),
+          'tv': (BuildContext context) => MainPage(),
+          'film': (BuildContext context) => MainPage(),
+          'setting': (BuildContext context) => SettingPage(),
+        });
+  }
+}
+
+class SettingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Menu());
   }
 }
 
@@ -120,7 +135,7 @@ class _MainPageState extends State<MainPage> {
                         Color(0xFF101010),
                         Color(0xFF1f1f2f),
                       ])),
-                  child: Center(child: VideoList(Menu()))),
+                  child: Center(child: VideoList())),
               onWillPop: () async {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.black,

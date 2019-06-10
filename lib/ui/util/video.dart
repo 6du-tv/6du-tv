@@ -13,7 +13,6 @@ class VideoWidget extends StatefulWidget {
   final padding;
   final ScrollController scrollController;
   final bool Function(FocusNode node, RawKeyEvent event) onKey;
-  final VideoWidgetState _state;
 
   VideoWidget(this.scrollController,
       {Key key,
@@ -23,25 +22,15 @@ class VideoWidget extends StatefulWidget {
       this.img,
       this.title,
       this.onKey})
-      : _state = VideoWidgetState(),
-        super(key: key);
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _state;
-  }
-
-  void focus() {
-    this._state.focus();
+    return VideoWidgetState();
   }
 }
 
 class VideoWidgetState extends State<VideoWidget> {
-  FocusNode _focus;
-  void focus() {
-    _focus.requestFocus();
-  }
-
   @override
   Widget build(BuildContext context) {
     final widget = this.widget;
@@ -53,7 +42,7 @@ class VideoWidgetState extends State<VideoWidget> {
         autofocus: true,
         onKey: this.widget.onKey,
         child: Builder(builder: (BuildContext context) {
-          final FocusNode focusNode = _focus = Focus.of(context);
+          final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;
 
           Color color;
