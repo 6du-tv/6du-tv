@@ -77,6 +77,14 @@ class VideoListState extends State<VideoList> {
     return Menu(goto, _position);
   }
 
+  bool _onKey(FocusNode node, RawKeyEvent event) {
+    if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
+      setState(() {});
+      return true;
+    }
+    return false;
+  }
+
   Widget _video() {
     final size = MediaQuery.of(context).size;
     double width = size.width;
@@ -111,13 +119,7 @@ class VideoListState extends State<VideoList> {
                       width: width,
                       height: height,
                       padding: padding,
-                      onKey: (FocusNode node, RawKeyEvent event) {
-                    if (event.logicalKey == LogicalKeyboardKey(0x10200000004)) {
-                      setState(() {});
-                      return true;
-                    }
-                    return false;
-                  })));
+                      onKey: _onKey)));
             }
 
             return li;
@@ -146,6 +148,7 @@ class VideoListState extends State<VideoList> {
           return ListBuilder((context, item) {
             return Center(
               child: Focus(
+                onKey: _onKey,
                 autofocus: true,
                 child: Text(
                     "${data.appName} ${data.packageName} version ${data.version} buildNumber ${data.buildNumber}"),
