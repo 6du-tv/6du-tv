@@ -1,4 +1,4 @@
-package com.example.tv_6du;
+package tv.6du;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
