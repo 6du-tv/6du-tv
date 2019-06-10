@@ -154,25 +154,28 @@ class VideoListState extends State<VideoList> {
                       child: Builder(builder: (BuildContext context) {
                         final FocusNode focusNode = Focus.of(context);
                         Color bg, textColor;
+                        String text = "检测更新";
+                        void onPress() {}
                         if (focusNode.hasFocus) {
                           bg = theme.buttonColor;
                           textColor = theme.primaryColor;
+                          return FlatButton(
+                            onPressed: onPress,
+                            color: bg,
+                            shape: StadiumBorder(),
+                            child:
+                                Text(text, style: TextStyle(color: textColor)),
+                          );
                         } else {
-                          bg = Colors.transparent;
                           textColor = theme.buttonColor;
+                          return OutlineButton(
+                            onPressed: onPress,
+                            borderSide: BorderSide(color: textColor),
+                            shape: StadiumBorder(),
+                            child:
+                                Text(text, style: TextStyle(color: textColor)),
+                          );
                         }
-                        OutlineButton btn = OutlineButton(
-                          onPressed: () {
-                            /*...*/
-                          },
-                          color: bg,
-                          shape: StadiumBorder(),
-                          borderSide: BorderSide(color: theme.buttonColor),
-                          child:
-                              Text("检测更新", style: TextStyle(color: textColor)),
-                        );
-
-                        return btn;
                       }),
                     ),
                   )
