@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/painting.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:tv_6du/ui/util/menu.dart';
@@ -180,40 +181,65 @@ class VideoListState extends State<VideoList> {
                 autofocus: true,
                 child: Builder(builder: (BuildContext context) {
                   final FocusNode focusNode = Focus.of(context);
-
+                  bool hasFocus = focusNode.hasFocus;
+                  TextStyle textStyle;
                   Color bg, textColor;
                   String text = "检测更新";
                   void onPress() {}
                   Widget btn;
-                  if (focusNode.hasFocus) {
-                    bg = theme.buttonColor;
-                    textColor = theme.primaryColor;
+                  if (hasFocus) {
+                    bg = Colors.yellow;
+                    textColor = Colors.white;
+                    textStyle = TextStyle(color: textColor);
                     btn = FlatButton(
                       onPressed: onPress,
                       color: bg,
                       shape: StadiumBorder(),
-                      child: Text(text, style: TextStyle(color: textColor)),
+                      child: Text(text, style: TextStyle(color: Colors.black)),
                     );
                   } else {
-                    textColor = Colors.grey;
+                    textColor = Colors.white70;
+                    textStyle = TextStyle(color: textColor);
+
                     btn = OutlineButton(
                       onPressed: onPress,
                       borderSide: BorderSide(color: textColor),
                       shape: StadiumBorder(),
-                      child: Text(text, style: TextStyle(color: textColor)),
+                      child: Text(text, style: textStyle),
                     );
                   }
+                  TextSpan app = TextSpan(
+                      text: "${data.appName} ${data.version}",
+                      style: textStyle);
+                  final textPainter =
+                      TextPainter(textDirection: TextDirection.ltr, text: app);
+                  textPainter.layout();
+                  final textWidth = textPainter.width;
+
                   return Container(
-                      color: Colors.blueGrey[700],
-                      child: Column(children: [
-                        Expanded(
-                            child: Center(
-                                child:
-                                    Text("${data.appName} ${data.version}"))),
-                        Container(
-                            padding: EdgeInsets.only(bottom: padding * 2),
-                            child: btn)
-                      ]));
+                      color: hasFocus
+                          ? Colors.lightGreen[800]
+                          : Colors.blueGrey[700],
+                      child: Container(
+                        padding: EdgeInsets.all(padding * 2),
+                        child: Column(children: [
+                          Expanded(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RichText(text: app),
+                              Container(
+                                width: textWidth,
+                                child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text("更新于 2019 / 09 / 12",
+                                        style: textStyle)),
+                              )
+                            ],
+                          )),
+                          btn
+                        ]),
+                      ));
                 }))
           ];
         },
