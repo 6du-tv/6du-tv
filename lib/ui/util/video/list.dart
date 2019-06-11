@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:tv_6du/ui/util/menu.dart';
 import 'package:tv_6du/ui/util/video.dart';
+import 'package:tuple/tuple.dart';
 
 class VideoList extends StatefulWidget {
   VideoList({Key key}) : super(key: key);
@@ -96,7 +97,7 @@ class VideoListState extends State<VideoList> {
     return false;
   }
 
-  Widget _video() {
+  Tuple2<int, double> _nWidth() {
     final size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
@@ -109,7 +110,14 @@ class VideoListState extends State<VideoList> {
       n = 2;
       width = (width - 2 * padding) / n - padding * 2;
     }
-    height = width * 297 / 210;
+    return Tuple2(n, width);
+  }
+
+  Widget _video() {
+    Tuple2<int, double> nWidth = _nWidth();
+    int n = nWidth.item1;
+    double width = nWidth.item2;
+    double height = width * 297 / 210;
 
     return FutureBuilder<List>(
         future: fetchVideo(),
