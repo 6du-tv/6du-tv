@@ -113,96 +113,112 @@ class VideoListState extends State<VideoList> {
     return Tuple2(n, width);
   }
 
+  ListBuilder _row(int n, List li, Widget Function(dynamic) wrap) {
+    List<Widget> children(int item) {
+      List<Widget> r = <Widget>[];
+
+      final base = item * n;
+      final end = min<int>(li.length - base, n);
+      for (var i = 0; i < end; ++i) {
+        r.add(wrap(li[base + i]));
+      }
+
+      return r;
+    }
+
+    return ListBuilder(
+      (context, item) {
+        return Row(children: children(item));
+      },
+      ((li.length + n - 1) ~/ n),
+    );
+  }
+
+  FutureBuilder<List> _future(
+      Future<List> Function() future, int n, Widget Function(dynamic) wrap) {
+    return FutureBuilder<List>(
+        future: future(),
+        builder: _builder((context, data) {
+          return _row(n, data, wrap);
+        }));
+  }
+
   Widget _video() {
     Tuple2<int, double> nWidth = _nWidth();
     int n = nWidth.item1;
     double width = nWidth.item2;
     double height = width * 297 / 210;
 
-    return FutureBuilder<List>(
-        future: fetchVideo(),
-        builder: _builder((context, data) {
-          List<Widget> children(item) {
-            List<Widget> li = <Widget>[];
-
-            final base = item * n;
-            final end = min<int>(data.length - base, n);
-            for (var i = 0; i < end; ++i) {
-              final o = data[base + i];
-
-              li.add(Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: VideoWidget(scrollController,
-                      img: o[1],
-                      title: o[0],
-                      width: width,
-                      height: height,
-                      padding: padding,
-                      onKey: _onKey)));
-            }
-
-            return li;
-          }
-
-          return ListBuilder(
-            (context, item) {
-              return Container(
-                  padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-                  child: Row(children: children(item)));
-            },
-            ((data.length + n - 1) ~/ n),
-          );
-        }));
+    return _future(
+        fetchVideo,
+        n,
+        (o) => Padding(
+            padding: EdgeInsets.all(padding),
+            child: VideoWidget(scrollController,
+                img: o[1],
+                title: o[0],
+                width: width,
+                height: height,
+                padding: padding,
+                onKey: _onKey)));
   }
 
   Widget _setting() {
-    return FutureBuilder<PackageInfo>(
-        future: PackageInfo.fromPlatform(),
-        builder: _builder((context, data) {
-          return ListBuilder((context, item) {
-            final theme = Theme.of(context);
-            return Container(
-                padding: EdgeInsets.fromLTRB(
-                    padding * 2, padding, padding * 2, padding),
-                child: Row(children: [
-                  Expanded(child: Text("${data.appName} ${data.version}")),
-                  Expanded(
-                    child: Focus(
-                      onKey: (FocusNode node, RawKeyEvent event) {
-                        return _onKey(node, event);
-                      },
-                      autofocus: true,
-                      child: Builder(builder: (BuildContext context) {
-                        final FocusNode focusNode = Focus.of(context);
-                        Color bg, textColor;
-                        String text = "检测更新";
-                        void onPress() {}
-                        if (focusNode.hasFocus) {
-                          bg = theme.buttonColor;
-                          textColor = theme.primaryColor;
-                          return FlatButton(
-                            onPressed: onPress,
-                            color: bg,
-                            shape: StadiumBorder(),
-                            child:
-                                Text(text, style: TextStyle(color: textColor)),
-                          );
-                        } else {
-                          textColor = Colors.grey;
-                          return OutlineButton(
-                            onPressed: onPress,
-                            borderSide: BorderSide(color: textColor),
-                            shape: StadiumBorder(),
-                            child:
-                                Text(text, style: TextStyle(color: textColor)),
-                          );
-                        }
-                      }),
-                    ),
-                  )
-                ]));
-          }, 1);
-        }));
+    Tuple2<int, double> nWidth = _nWidth();
+    int n = nWidth.item1;
+    double width = nWidth.item2;
+    final theme = Theme.of(context);
+
+    return _future(
+        () async {
+          final data = await PackageInfo.fromPlatform();
+          return [
+            Column(children: [
+              Expanded(child: Text("${data.appName} ${data.version}")),
+              Expanded(
+                child: Focus(
+                  onKey: (FocusNode node, RawKeyEvent event) {
+                    return _onKey(node, event);
+                  },
+                  autofocus: true,
+                  child: Builder(builder: (BuildContext context) {
+                    final FocusNode focusNode = Focus.of(context);
+                    Color bg, textColor;
+                    String text = "检测更新";
+                    void onPress() {}
+                    if (focusNode.hasFocus) {
+                      bg = theme.buttonColor;
+                      textColor = theme.primaryColor;
+                      return FlatButton(
+                        onPressed: onPress,
+                        color: bg,
+                        shape: StadiumBorder(),
+                        child: Text(text, style: TextStyle(color: textColor)),
+                      );
+                    } else {
+                      textColor = Colors.grey;
+                      return OutlineButton(
+                        onPressed: onPress,
+                        borderSide: BorderSide(color: textColor),
+                        shape: StadiumBorder(),
+                        child: Text(text, style: TextStyle(color: textColor)),
+                      );
+                    }
+                  }),
+                ),
+              )
+            ])
+          ];
+        },
+        n,
+        (child) {
+          return Container(
+              padding: EdgeInsets.fromLTRB(
+                  padding * 2, padding, padding * 2, padding),
+              height: width,
+              width: width,
+              child: child);
+        });
   }
 
   @override
