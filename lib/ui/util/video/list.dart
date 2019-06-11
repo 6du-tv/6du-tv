@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/painting.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:tv_6du/ui/util/menu.dart';
@@ -168,7 +167,6 @@ class VideoListState extends State<VideoList> {
     Tuple2<int, double> nWidth = _nWidth();
     int n = nWidth.item1;
     double width = nWidth.item2;
-    final theme = Theme.of(context);
 
     return _future(
         () async {
