@@ -7,8 +7,9 @@ cd $_dirname
 version=0.0.1
 git add -u
 git commit -m"."
-
 git tag v$version
+git push origin v$version
+
 source ./release.sh
 
 github-release upload \
