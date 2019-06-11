@@ -8,3 +8,4 @@ cd $_dirname
 version=release
 
 flutter build apk --$version
+APK=build/app/outputs/apk/$version/app-$version.apk
