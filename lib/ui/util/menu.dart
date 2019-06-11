@@ -42,10 +42,11 @@ class _MenuState extends State<Menu> {
           if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
             node.unfocus();
+            this.widget.goto(url, position);
+
             setState(() {
               this.now = position;
             });
-            this.widget.goto(url, position);
             return true;
           }
         }
