@@ -12,6 +12,7 @@ git push origin v$version
 
 source ./release.sh
 
+export GITHUB_TOKEN=`cat ~/.github/6du`
 github-release upload \
   --owner 6du-tv \
   --repo 6du-tv \
