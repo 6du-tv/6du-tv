@@ -4,8 +4,8 @@ _dirname=$(cd "$(dirname "$0")"; pwd)
 
 cd $_dirname
 
-#version=debug
-version=release
+#out=debug
+out=release
 
-flutter build apk --$version
-APK=build/app/outputs/apk/$version/app-$version.apk
+flutter build apk --$out
+APK=build/app/outputs/apk/$out/app-$out.apk
