@@ -1,0 +1,10 @@
+{
+  "name": "6du-tv-version",
+  "version": "0.0.1",
+  "repository": "git@github.com:6du-tv/6du-tv-apk.git",
+  "author": "eyun <eyun@protonmail.com>",
+  "license": "MPL-2.0",
+  "apk":[
+    "https://github.com/6du-tv/6du-tv/releases/download/v$version/app-release.apk"    
+  ]
+}
