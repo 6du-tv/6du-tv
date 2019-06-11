@@ -183,31 +183,29 @@ class VideoListState extends State<VideoList> {
                   final FocusNode focusNode = Focus.of(context);
                   bool hasFocus = focusNode.hasFocus;
                   TextStyle textStyle;
+                  TextStyle btnStyle;
+
                   Color bg, textColor;
+                  BoxDecoration decoration;
                   String text = "检测更新";
-                  void onPress() {}
-                  Widget btn;
                   if (hasFocus) {
                     bg = Colors.yellow;
                     textColor = Colors.white;
                     textStyle = TextStyle(color: textColor);
-                    btn = FlatButton(
-                      onPressed: onPress,
+                    decoration = BoxDecoration(
                       color: bg,
-                      shape: StadiumBorder(),
-                      child: Text(text, style: TextStyle(color: Colors.black)),
+                      border: Border.all(width: 1.5, color: bg),
                     );
+                    btnStyle = TextStyle(color: Colors.black);
                   } else {
                     textColor = Colors.white70;
-                    textStyle = TextStyle(color: textColor);
-
-                    btn = OutlineButton(
-                      onPressed: onPress,
-                      borderSide: BorderSide(color: textColor),
-                      shape: StadiumBorder(),
-                      child: Text(text, style: textStyle),
+                    textStyle = btnStyle = TextStyle(color: textColor);
+                    decoration = BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(width: 1.5, color: textColor),
                     );
                   }
+
                   TextSpan app = TextSpan(
                       text: "${data.appName} ${data.version}",
                       style: textStyle);
@@ -216,29 +214,51 @@ class VideoListState extends State<VideoList> {
                   textPainter.layout();
                   final textWidth = textPainter.width;
 
+                  Container btn = Container(
+                    width: textWidth,
+                    decoration: decoration,
+                    child: Text(text,
+                        style: btnStyle, textAlign: TextAlign.center),
+                    margin: EdgeInsets.only(top: padding * 3),
+                    padding: EdgeInsets.symmetric(
+                        vertical: padding, horizontal: padding * 2),
+                  );
+
                   return Container(
-                      color: hasFocus
-                          ? Colors.lightGreen[800]
-                          : Colors.blueGrey[700],
+                      decoration: BoxDecoration(
+                          color: hasFocus
+                              ? Colors.lightGreen[800]
+                              : Colors.blueGrey[700],
+                          boxShadow: hasFocus
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.yellow,
+                                    spreadRadius: 3,
+                                    blurRadius: 3,
+                                    offset: Offset(0.0, 0.0),
+                                  )
+                                ]
+                              : []),
                       child: Container(
                         padding: EdgeInsets.all(padding * 2),
-                        child: Column(children: [
-                          Expanded(
-                              child: Column(
+                        child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              RichText(text: app),
-                              Container(
-                                width: textWidth,
-                                child: FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    child: Text("更新于 2019 / 09 / 12",
-                                        style: textStyle)),
-                              )
-                            ],
-                          )),
-                          btn
-                        ]),
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  RichText(text: app),
+                                  Container(
+                                    width: textWidth,
+                                    child: FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Text("更新于 2019 / 09 / 12",
+                                            style: textStyle)),
+                                  )
+                                ],
+                              ),
+                              btn
+                            ]),
                       ));
                 }))
           ];
