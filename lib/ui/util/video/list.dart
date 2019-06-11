@@ -173,41 +173,48 @@ class VideoListState extends State<VideoList> {
         () async {
           final data = await PackageInfo.fromPlatform();
           return [
-            Column(children: [
-              Expanded(child: Text("${data.appName} ${data.version}")),
-              Expanded(
-                child: Focus(
-                  onKey: (FocusNode node, RawKeyEvent event) {
-                    return _onKey(node, event);
-                  },
-                  autofocus: true,
-                  child: Builder(builder: (BuildContext context) {
-                    final FocusNode focusNode = Focus.of(context);
-                    Color bg, textColor;
-                    String text = "检测更新";
-                    void onPress() {}
-                    if (focusNode.hasFocus) {
-                      bg = theme.buttonColor;
-                      textColor = theme.primaryColor;
-                      return FlatButton(
-                        onPressed: onPress,
-                        color: bg,
-                        shape: StadiumBorder(),
-                        child: Text(text, style: TextStyle(color: textColor)),
-                      );
-                    } else {
-                      textColor = Colors.grey;
-                      return OutlineButton(
-                        onPressed: onPress,
-                        borderSide: BorderSide(color: textColor),
-                        shape: StadiumBorder(),
-                        child: Text(text, style: TextStyle(color: textColor)),
-                      );
-                    }
-                  }),
-                ),
-              )
-            ])
+            Focus(
+                onKey: (FocusNode node, RawKeyEvent event) {
+                  return _onKey(node, event);
+                },
+                autofocus: true,
+                child: Builder(builder: (BuildContext context) {
+                  final FocusNode focusNode = Focus.of(context);
+
+                  Color bg, textColor;
+                  String text = "检测更新";
+                  void onPress() {}
+                  Widget btn;
+                  if (focusNode.hasFocus) {
+                    bg = theme.buttonColor;
+                    textColor = theme.primaryColor;
+                    btn = FlatButton(
+                      onPressed: onPress,
+                      color: bg,
+                      shape: StadiumBorder(),
+                      child: Text(text, style: TextStyle(color: textColor)),
+                    );
+                  } else {
+                    textColor = Colors.grey;
+                    btn = OutlineButton(
+                      onPressed: onPress,
+                      borderSide: BorderSide(color: textColor),
+                      shape: StadiumBorder(),
+                      child: Text(text, style: TextStyle(color: textColor)),
+                    );
+                  }
+                  return Container(
+                      color: Colors.blueGrey[700],
+                      child: Column(children: [
+                        Expanded(
+                            child: Center(
+                                child:
+                                    Text("${data.appName} ${data.version}"))),
+                        Container(
+                            padding: EdgeInsets.only(bottom: padding * 2),
+                            child: btn)
+                      ]));
+                }))
           ];
         },
         n,
