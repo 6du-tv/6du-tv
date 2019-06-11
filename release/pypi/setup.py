@@ -9,7 +9,7 @@ setup(
     author_email='eyun@protonmail.com',
     url='https://github.com/6du-tv/6du-tv',
     packages=[],
-    packages_data=[
+    data_files=[
         "6du.tv.apk"
     ]
 )

@@ -20,9 +20,11 @@ source ./release.sh
 #   --name "$version" \
 #   --body "" $APK
 
-GIT=~/git/apk
-cp $APK $GIT/$version.apk
-cd $GIT
-git add $version.apk
-git commit -m"~"
-git push origin master
+curl https://pypi.org/pypi/6du.tv/json
+
+# GIT=~/git/apk
+# cp $APK $GIT/$version.apk
+# cd $GIT
+# git add $version.apk
+# git commit -m"~"
+# git push origin master
