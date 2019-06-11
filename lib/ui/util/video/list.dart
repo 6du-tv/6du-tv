@@ -186,6 +186,7 @@ class VideoListState extends State<VideoList> {
                   Color bg, textColor;
                   BoxDecoration decoration;
                   String text = "检测更新";
+                  LinearGradient gradient;
                   if (hasFocus) {
                     bg = Colors.yellow;
                     textColor = Colors.white;
@@ -195,6 +196,13 @@ class VideoListState extends State<VideoList> {
                       border: Border.all(width: 1.5, color: bg),
                     );
                     btnStyle = TextStyle(color: Colors.black);
+                    gradient = LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.lightGreen[700],
+                          Colors.lightGreen[900],
+                        ]);
                   } else {
                     textColor = Colors.white70;
                     textStyle = btnStyle = TextStyle(color: textColor);
@@ -202,6 +210,14 @@ class VideoListState extends State<VideoList> {
                       color: Colors.transparent,
                       border: Border.all(width: 1.5, color: textColor),
                     );
+                    gradient = LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF666666),
+                          Color(0xFF555555),
+                          Color(0xFF444444),
+                        ]);
                   }
 
                   TextSpan app = TextSpan(
@@ -224,9 +240,7 @@ class VideoListState extends State<VideoList> {
 
                   return Container(
                       decoration: BoxDecoration(
-                          color: hasFocus
-                              ? Colors.lightGreen[800]
-                              : Colors.blueGrey[700],
+                          gradient: gradient,
                           boxShadow: hasFocus
                               ? [
                                   BoxShadow(
