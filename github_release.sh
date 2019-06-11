@@ -4,7 +4,7 @@ _dirname=$(cd "$(dirname "$0")"; pwd)
 
 cd $_dirname
 
-$version=0.0.1
+version=0.0.1
 git add -u
 git commit -m"."
 
