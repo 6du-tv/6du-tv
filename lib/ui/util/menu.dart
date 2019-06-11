@@ -41,6 +41,7 @@ class _MenuState extends State<Menu> {
         if (event is RawKeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
               event.logicalKey == LogicalKeyboardKey.enter) {
+            node.unfocus();
             setState(() {
               this.now = position;
             });

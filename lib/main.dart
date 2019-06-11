@@ -66,9 +66,10 @@ class _MainPageState extends State<MainPage> {
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
-      print("\n$event ${event.logicalKey}");
+      print(
+          "\n0x${event.logicalKey.keyId.toRadixString(16).padLeft(8, '0')} ${event.logicalKey.debugName} ");
 
-      if (event.logicalKey == LogicalKeyboardKey(0x10200000017) ||
+      if (event.logicalKey == LogicalKeyboardKey(0x100070077) ||
           event.logicalKey == LogicalKeyboardKey.enter) {
         return true;
       }
