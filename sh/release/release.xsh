@@ -42,6 +42,10 @@ bash github.sh @(version)
 
 cd $DIR
 echo @(version) > npm/version/n.txt
+
+url=`wget -qO- https://pypi.org/pypi/6du.tv/json | python3 -c "import sys, json;from distutils.version import StrictVersion;print((sorted(json.load(sys.stdin)['releases'].items(),key=lambda x:StrictVersion(x[0]),reverse=True))[0][1][0]['url'],end='')"`
+echo $url
+
 bash npm/version.sh
 
 cd $DIR
