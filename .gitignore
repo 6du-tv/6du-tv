@@ -73,5 +73,5 @@
 
 /.vscode/
 /release/**/*.apk
-/release/npm/version
+/release/npm/version/
 *.egg-info/
