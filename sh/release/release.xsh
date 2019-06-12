@@ -27,9 +27,12 @@ sed -i '/^version:/c $pubspec_version' pubspec.yaml
 $python_version = rf"\ \ \ \ version='{version}',"
 sed -i '/version=/c$python_version' $DIR/pypi/setup.py 
 
-echo @(version) > $DIR/npm/version/n.txt
 
 mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
 bash $DIR/github.sh @(version)
 
-# echo @(version) > version.txt
+cp $DIR/6du.tv.apk $DIR/pypi
+bash $DIR/pypi/dist.sh
+
+
+echo @(version) > $DIR/npm/version/n.txt
