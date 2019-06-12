@@ -6,8 +6,6 @@ cd $_dirname
 
 if [ ! -d "$_dirname/version" ]; then
 git clone git@6du.bitbucket.org:6du_tv/version.git --depth=1
-fi
-
 cat <<EOF > version/.git/config
 [core]
     repositoryformatversion = 0
@@ -22,3 +20,10 @@ cat <<EOF > version/.git/config
     pushurl = git@eyun.github.com:6du-tv/6du-tv-version.git
     pushurl = git@6du.gitee.com:www-6du-tv/6du-tv-version.git
 EOF
+fi
+
+cd $dirname/version
+
+git add -u
+git commit -m"."
+git push
