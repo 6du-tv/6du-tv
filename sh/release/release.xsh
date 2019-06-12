@@ -29,4 +29,5 @@ sed -i '/version=/c$python_version' $DIR/pypi/setup.py
 
 echo @(version) > $DIR/npm/version/n.txt
 
+mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
 # echo @(version) > version.txt
