@@ -21,6 +21,7 @@ github-release upload \
   --name "$version" \
   --body "" $_dirname/6du.tv.tgz
 
+rm 6du.tv.tgz
 # curl https://pypi.org/pypi/6du.tv/json
 
 # GIT=~/git/apk
