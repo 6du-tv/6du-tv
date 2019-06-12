@@ -43,3 +43,6 @@ bash github.sh @(version)
 cd $DIR
 echo @(version) > npm/version/n.txt
 bash npm/version.sh
+
+cd $DIR
+rm 6du.tv.apk
