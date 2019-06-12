@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='6du.tv',
-    version='0.0.4',
+    version='0.0.6',
     description='6du.tv',
     author='6du.tv',
     author_email='eyun@protonmail.com',
