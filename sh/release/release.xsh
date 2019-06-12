@@ -21,25 +21,25 @@ $pubspec_version = f"version: {version}+{build}"
 sed -i '/^version:/c $pubspec_version' pubspec.yaml
 
 
-#./release.sh
+./release.sh
 
 
-#$python_version = rf"\ \ \ \ version='{version}',"
-#sed -i '/version=/c$python_version' $DIR/pypi/setup.py 
+$python_version = rf"\ \ \ \ version='{version}',"
+sed -i '/version=/c$python_version' $DIR/pypi/setup.py 
 
-#mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
-#bash $DIR/github.sh @(version)
+mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
+bash $DIR/github.sh @(version)
 
-#cp $DIR/6du.tv.apk $DIR/pypi
-#bash $DIR/pypi/dist.sh
+cp $DIR/6du.tv.apk $DIR/pypi
+bash $DIR/pypi/dist.sh
 
 cd $DIR
 cp 6du.tv.apk npm/apk
 $json_version = rf"\ \ \ \ \"version\":\"{version}\","
 sed -i '/\"version\"/c$json_version' npm/apk/package.json
 cd $DIR/npm/apk
-#npm publish
+npm publish
 
-#cd $DIR
-#echo @(version) > npm/version/n.txt
-#bash npm/version.sh
+cd $DIR
+echo @(version) > npm/version/n.txt
+bash npm/version.sh
