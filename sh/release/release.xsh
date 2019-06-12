@@ -36,8 +36,9 @@ sed -i '/\"version\"/c$json_version' npm/apk/package.json
 cd $DIR/npm/apk
 npm publish
 
-mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
-bash $DIR/github.sh @(version)
+cd $DIR
+mv build/app/outputs/apk/release/app-release.apk 6du.tv.apk
+bash github.sh @(version)
 
 cd $DIR
 echo @(version) > npm/version/n.txt
