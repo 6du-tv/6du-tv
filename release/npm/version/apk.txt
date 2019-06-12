@@ -1,3 +1,0 @@
-https://github.com/6du-tv/6du-tv/releases/download/v$version/6du.tv.apk.tgz
-https://registry.npm.taobao.org/6du-tv-apk/download/6du-tv-apk-$version.tgz
-
