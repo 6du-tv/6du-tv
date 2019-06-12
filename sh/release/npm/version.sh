@@ -22,7 +22,7 @@ cat <<EOF > version/.git/config
 EOF
 fi
 
-cd $dirname/version
+cd version
 
 git add -u
 git commit -m"."
