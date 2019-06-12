@@ -11,7 +11,7 @@ git tag v$version
 git push origin v$version
 
 # source ./release.sh
-tar -czvf 6du.tv.apk 6du.tv.tgz
+tar -czvf 6du.tv.tgz 6du.tv.apk
 
 export GITHUB_TOKEN=`cat ~/.github/6du`
 # github-release upload \
