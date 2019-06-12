@@ -23,12 +23,8 @@ sed -i '/^version:/c $pubspec_version' pubspec.yaml
 
 ./release.sh
 
-
 $python_version = rf"\ \ \ \ version='{version}',"
 sed -i '/version=/c$python_version' $DIR/pypi/setup.py 
-
-mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
-bash $DIR/github.sh @(version)
 
 cp $DIR/6du.tv.apk $DIR/pypi
 bash $DIR/pypi/dist.sh
@@ -39,6 +35,9 @@ $json_version = rf"\ \ \ \ \"version\":\"{version}\","
 sed -i '/\"version\"/c$json_version' npm/apk/package.json
 cd $DIR/npm/apk
 npm publish
+
+mv build/app/outputs/apk/release/app-release.apk $DIR/6du.tv.apk
+bash $DIR/github.sh @(version)
 
 cd $DIR
 echo @(version) > npm/version/n.txt
