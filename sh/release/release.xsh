@@ -43,17 +43,30 @@ bash github.sh @(version)
 cd $DIR
 echo @(version) > npm/version/n.txt
 
-url=`wget -qO- https://pypi.org/pypi/6du.tv/json | python3 -c "import sys,json;print(json.load(sys.stdin)['urls'][0]['url'][8:],end='')"`
+url_li = [
+    f"github.com/6du-tv/6du-tv/releases/download/v{version}/6du.tv.tgz",
+]
 
-url_li = [url]
+$pypi_url=f"https://pypi.org/pypi/6du.tv/{version}/json"
+url=`wget -qO- $pypi_url | python3 -c "import sys,json;print(json.load(sys.stdin)['urls'][0]['url'][8:],end='')"`
+
+url_li.append(url)
 url = url.split("/",1)
 
 for host in "pypi.doubanio.com pypi.tuna.tsinghua.edu.cn mirrors.aliyun.com/pypi".split(' ')
     url[0] = host
     url_li.append("/".join(url))
 
+npm_url = f"/6du-tv-apk/-/6du-tv-apk-{version}.tgz"
 
-bash npm/version.sh
+for host in "registry.npmjs.org registry.npm.taobao.org r.cnpmjs.org".split(' '):
+    url_li.append(host+npm_url)
+
+with open("npm/version/n.txt","w") as f:
+    f.write("\n".join(url_li))
+
+sed -i '/\"version\"/c$json_version' npm/version/package.json
+./npm/version.sh
 
 cd $DIR
 rm 6du.tv.apk
