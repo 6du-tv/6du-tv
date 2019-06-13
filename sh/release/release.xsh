@@ -65,7 +65,7 @@ npm_url = f"/6du-tv-apk/-/6du-tv-apk-{version}.tgz"
 for host in "registry.npmjs.org registry.npm.taobao.org r.cnpmjs.org".split(' '):
     url_li.append(host+npm_url)
 
-with open("npm/version/n.txt","w") as f:
+with open("npm/version/apk.txt","w") as f:
     f.write("\n".join(url_li))
 
 sed -i '/\"version\"/c$json_version' npm/version/package.json
