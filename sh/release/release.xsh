@@ -35,7 +35,7 @@ cp 6du.tv.apk pypi/
 
 cp 6du.tv.apk npm/apk/
 
-$json_version = rf"\ \ \ \ \"version\":\"{version}\","
+$json_version = rf"\ \ \"version\":\"{version}\","
 sed -i '/\"version\"/c$json_version' npm/apk/package.json
 cd $DIR/npm/apk
 npm publish
