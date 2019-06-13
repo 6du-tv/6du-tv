@@ -21,7 +21,7 @@ $pubspec_version = f"version: {version}+{build}"
 sed -i '/^version:/c $pubspec_version' pubspec.yaml
 
 
-./release.sh
+./build.sh
 
 $python_version = rf"\ \ \ \ version='{version}',"
 sed -i '/version=/c$python_version' $DIR/pypi/setup.py 

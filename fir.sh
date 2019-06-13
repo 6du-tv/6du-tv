@@ -3,5 +3,5 @@
 _dirname=$(cd "$(dirname "$0")"; pwd)
 
 cd $_dirname
-source ./release.sh
+source ./build.sh
 fir publish $APK
