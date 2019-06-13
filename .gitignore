@@ -75,3 +75,4 @@
 /sh/release/**/*.apk
 /sh/release/npm/version/
 *.egg-info/
+.project
