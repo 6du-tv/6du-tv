@@ -1,4 +1,6 @@
 #!/usr/bin/env xonsh
+$RAISE_SUBPROC_ERROR = True
+import json
 from os.path import dirname,abspath
 import os
 
@@ -48,8 +50,8 @@ url_li = [
 ]
 
 $pypi_url=f"https://pypi.org/pypi/6du.tv/{version}/json"
-url=`wget -qO- $pypi_url | python3 -c "import sys,json;print(json.load(sys.stdin)['urls'][0]['url'][8:],end='')"`
-
+echo $pypi_url
+url = json.loads($(wget -qO- $pypi_url))['urls'][0]['url'][8:]
 url_li.append(url)
 url = url.split("/",1)
 
