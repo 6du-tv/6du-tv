@@ -43,8 +43,15 @@ bash github.sh @(version)
 cd $DIR
 echo @(version) > npm/version/n.txt
 
-url=`wget -qO- https://pypi.org/pypi/6du.tv/json | python3 -c "import sys, json;from distutils.version import StrictVersion;print((sorted(json.load(sys.stdin)['releases'].items(),key=lambda x:StrictVersion(x[0]),reverse=True))[0][1][0]['url'],end='')"`
-echo $url
+url=`wget -qO- https://pypi.org/pypi/6du.tv/json | python3 -c "import sys,json;print(json.load(sys.stdin)['urls'][0]['url'][8:],end='')"`
+
+url_li = [url]
+url = url.split("/",1)
+
+for host in "pypi.doubanio.com pypi.tuna.tsinghua.edu.cn mirrors.aliyun.com/pypi".split(' ')
+    url[0] = host
+    url_li.append("/".join(url))
+
 
 bash npm/version.sh
 
