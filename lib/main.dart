@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
   void checkUpdate() {
     BackgroundFetch.configure(
         BackgroundFetchConfig(
-            minimumFetchInterval: 15,
+            minimumFetchInterval: 1,
             stopOnTerminate: false,
             enableHeadless: true), () async {
       // This is the fetch-event callback.
