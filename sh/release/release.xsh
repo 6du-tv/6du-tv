@@ -7,7 +7,6 @@ $ROOT = dirname(dirname($DIR))
 cd $ROOT
 
 version = $(cat pubspec.yaml|grep "^version:").split(":").pop().strip()
-print(version)
 version, build = version.split("+")
 build = int(build)+1
 version = list(map(int,version.split(".")))
@@ -15,6 +14,7 @@ version[-1]+=1
 
 
 version = ".".join(list(map(str,version)))
+print(version)
 
 $pubspec_version = f"version: {version}+{build}"
 
@@ -53,7 +53,7 @@ url=`wget -qO- $pypi_url | python3 -c "import sys,json;print(json.load(sys.stdin
 url_li.append(url)
 url = url.split("/",1)
 
-for host in "pypi.doubanio.com pypi.tuna.tsinghua.edu.cn mirrors.aliyun.com/pypi".split(' ')
+for host in "pypi.doubanio.com pypi.tuna.tsinghua.edu.cn mirrors.aliyun.com/pypi".split(' '):
     url[0] = host
     url_li.append("/".join(url))
 
