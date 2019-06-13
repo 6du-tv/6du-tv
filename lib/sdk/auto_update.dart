@@ -20,7 +20,7 @@ void autoUpdate() {
     print(version);
     final data = await PackageInfo.fromPlatform();
 
-    print(data.version);
+    print("${data.appName} ${data.packageName} ${data.version}");
     kv.setInt(UPDATE_CHECK, now);
   });
 }

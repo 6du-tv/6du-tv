@@ -1,3 +1,5 @@
+package com.tv.sixdu
+
 import com.transistorsoft.flutter.backgroundfetch.BackgroundFetchPlugin
 
 import io.flutter.app.FlutterApplication
