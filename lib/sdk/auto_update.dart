@@ -9,11 +9,11 @@ void autoUpdate() {
     SharedPreferences kv = await SharedPreferences.getInstance();
     final updateCheck = kv.getInt(UPDATE_CHECK) ?? 0;
     final int now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-/*
     if ((now - updateCheck) < 86400) {
-      return;
+      //return;
+      print("TODO return");
     }
-    */
+
     List<String> version =
         (await rootBundle.loadString('sh/release/npm/version/version.txt'))
             .split("\n");
