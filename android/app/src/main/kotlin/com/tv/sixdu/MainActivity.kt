@@ -1,5 +1,6 @@
-package com.tv6du.tv_6du
+package com.tv.sixdu
 
+import com.transistorsoft.flutter.backgroundfetch.BackgroundFetchPlugin;
 import android.os.Bundle
 
 import io.flutter.app.FlutterActivity

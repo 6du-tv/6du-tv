@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen/screen.dart';
@@ -66,6 +67,28 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    checkUpdate();
+  }
+
+  void checkUpdate() {
+    BackgroundFetch.configure(
+        BackgroundFetchConfig(
+            minimumFetchInterval: 15,
+            stopOnTerminate: false,
+            enableHeadless: true), () async {
+      // This is the fetch-event callback.
+      print('[BackgroundFetch] Event received');
+      // setState(() {_events.insert(0, new DateTime.now());});
+      // IMPORTANT:  You must signal completion of your fetch task or the OS can punish your app
+      // for taking too long in the background.
+      BackgroundFetch.finish();
+    }).then((int status) {
+      print('[BackgroundFetch] SUCCESS: $status');
+      //    setState(() {_status = status;});
+    }).catchError((e) {
+      print('[BackgroundFetch] ERROR: $e');
+      // setState(() {_status = e;});
+    });
   }
 
   bool _handleKeyPress(FocusNode node, RawKeyEvent event) {
@@ -107,6 +130,7 @@ class _MainPageState extends State<MainPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
     Widget focusScope = FocusScope(
         onKey: _handleKeyPress,
         autofocus: true,

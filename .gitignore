@@ -76,3 +76,5 @@
 /sh/release/npm/version/
 *.egg-info/
 .project
+.settings/
+.classpath
