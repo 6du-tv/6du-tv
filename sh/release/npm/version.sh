@@ -5,7 +5,7 @@ _dirname=$(cd "$(dirname "$0")"; pwd)
 cd $_dirname
 
 if [ ! -d "$_dirname/version" ]; then
-git clone git@bitbucket.org:6du_tv/version.git --depth=1
+git clone git@github.com:6du-tv/6du-tv-version.git version --depth=1
 cat <<EOF > version/.git/config
 [core]
     repositoryformatversion = 0
