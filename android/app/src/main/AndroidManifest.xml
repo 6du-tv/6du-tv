@@ -8,7 +8,7 @@ xmlns:tools="http://schemas.android.com/tools"
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="六度电视"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher">
