@@ -14,7 +14,7 @@ cat <<EOF > version/.git/config
     logallrefupdates = true
     ignorecase = true
 [remote "origin"]
-    url = git@6du.gitee.com:www-6du-tv/6du-tv-version.git
+    url = git@github.com:6du-tv/6du-tv-version.git
     fetch = +refs/heads/*:refs/remotes/origin/*
     pushurl = git@6du.bitbucket.org:6du_tv/version.git
     pushurl = git@eyun.github.com:6du-tv/6du-tv-version.git
