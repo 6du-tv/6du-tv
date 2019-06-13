@@ -39,7 +39,7 @@ cd $DIR/npm/apk
 npm publish
 
 cd $DIR
-mv build/app/outputs/apk/release/app-release.apk 6du.tv.apk
+mv $ROOT/build/app/outputs/apk/release/app-release.apk 6du.tv.apk
 bash github.sh @(version)
 
 cd $DIR
